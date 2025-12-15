@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+enum Species {
+  DOG
+  CAT
+}
+
+enum ActivityLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model User {
+  id           String @id @default(uuid())
+  name         String
+  email        String @unique
+  passwordHash String
+  phone        String
+  pets         Pet[]
+}
+
+model Pet {
+  id            String        @id @default(uuid())
+  userId        String
+  user          User          @relation(fields: [userId], references: [id])
+  species       Species
+  breed         String
+  birthDate     DateTime
+  currentWeight Decimal //kg
+  activityLevel ActivityLevel
+
+  dailyNutritionalPlan String
+  menu                 String
+  menuAccepted         Boolean
+
+  menuHistories MenuHistory[]
+  weightTracks  WeightTrack[]
+}
+
+model MenuHistory {
+  id    String   @id @default(uuid())
+  petId String
+  pet   Pet      @relation(fields: [petId], references: [id])
+  date  DateTime
+  menu  String
+}
+
+model WeightTrack {
+  id     String   @id @default(uuid())
+  petId  String
+  pet    Pet      @relation(fields: [petId], references: [id])
+  weight Decimal
+  date   DateTime
+}
