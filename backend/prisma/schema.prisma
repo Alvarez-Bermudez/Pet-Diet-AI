@@ -23,11 +23,12 @@ enum ActivityLevel {
 }
 
 model User {
-  id           String @id @default(uuid())
+  id           String   @id @default(uuid())
   name         String
-  email        String @unique
+  email        String   @unique
   passwordHash String
-  phone        String
+  phone        String?
+  createdAt    DateTime @default(now())
   pets         Pet[]
 }
 
