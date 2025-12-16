@@ -29,4 +29,10 @@ export class PetsController {
   create(@UserId() userId: string, @Body() createPetDto: CreatePetDto) {
     return this.petsService.create(userId, createPetDto);
   }
+
+  @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  findOne(@UserId() userId: string, @Param('id') id: string) {
+    return this.petsService.findOne(userId, id);
+  }
 }

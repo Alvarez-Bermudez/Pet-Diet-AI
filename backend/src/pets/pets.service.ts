@@ -12,6 +12,7 @@ export class PetsService {
     const pets = await this.prisma.pet.findMany({
       where: { userId: userId },
       select: {
+        id: true,
         name: true,
         species: true,
         breed: true,
@@ -34,6 +35,12 @@ export class PetsService {
         activityLevel: createPetDto.activityLevel,
       },
     });
+
+    return pet;
+  }
+
+  async findOne(userId: string, id: string) {
+    const pet = this.prisma.pet.findUnique({ where: { id, userId } });
 
     return pet;
   }
