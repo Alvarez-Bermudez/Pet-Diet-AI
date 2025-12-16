@@ -8,15 +8,11 @@ const token2 =
 
 async function main() {
   try {
-    const response = await axios.get(
-      `${baseUrl}/users/me`,
-
-      {
-        headers: {
-          Authorization: `Bearer ${token2}`,
-        },
-      }
-    );
+    const response = await axios.get(`${baseUrl}/pets`, {
+      headers: {
+        Authorization: `Bearer ${token2}`,
+      },
+    });
 
     console.log(response.data);
   } catch (e) {
@@ -40,3 +36,15 @@ const response = await axios.post("http://localhost:3000/auth/signup", {
       password: "a12345678",
     });
 */
+
+/**
+ First dog
+ {
+        name: "Bruno",
+        species: "DOG",
+        breed: "bulldog",
+        birthDate: new Date("2023-03-15"),
+        currentWeight: 7.43,
+        activityLevel: "MEDIUM",
+      }
+ */

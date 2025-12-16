@@ -1,4 +1,4 @@
-import { Controller, Get, Patch, UseGuards } from '@nestjs/common';
+import { Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserId } from 'src/decorators/user.decorator';
@@ -18,5 +18,11 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   updateMe(@UserId() userId: string, updateMeDto: UpdateMeDto) {
     return this.usersService.updateMe(userId, updateMeDto);
+  }
+
+  @Post('clear-data')
+  @UseGuards(JwtAuthGuard)
+  clearData(@UserId() userId: string) {
+    return this.usersService.clearData(userId);
   }
 }

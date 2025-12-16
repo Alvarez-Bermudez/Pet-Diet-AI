@@ -36,15 +36,16 @@ model Pet {
   id            String        @id @default(uuid())
   userId        String
   user          User          @relation(fields: [userId], references: [id])
+  name          String
   species       Species
   breed         String
   birthDate     DateTime
   currentWeight Decimal //kg
   activityLevel ActivityLevel
 
-  dailyNutritionalPlan String
-  menu                 String
-  menuAccepted         Boolean
+  dailyNutritionalPlan String?
+  menu                 String?
+  menuAccepted         Boolean?
 
   menuHistories MenuHistory[]
   weightTracks  WeightTrack[]

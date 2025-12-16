@@ -1,34 +1,32 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { UserId } from 'src/decorators/user.decorator';
 
 @Controller('pets')
 export class PetsController {
   constructor(private readonly petsService: PetsService) {}
 
-  @Post()
-  create(@Body() createPetDto: CreatePetDto) {
-    return this.petsService.create(createPetDto);
-  }
-
   @Get()
-  findAll() {
-    return this.petsService.findAll();
+  @UseGuards(JwtAuthGuard)
+  findAll(@UserId() userId: string) {
+    return this.petsService.findAll(userId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.petsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePetDto: UpdatePetDto) {
-    return this.petsService.update(+id, updatePetDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.petsService.remove(+id);
+  @Post()
+  @UseGuards(JwtAuthGuard)
+  create(@UserId() userId: string, @Body() createPetDto: CreatePetDto) {
+    return this.petsService.create(userId, createPetDto);
   }
 }
