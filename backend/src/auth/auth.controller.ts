@@ -13,7 +13,7 @@ import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { SignInUserDto } from './dto/sign-in-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
-import { UserId } from './user.decorator';
+import { UserId } from '../decorators/user.decorator';
 import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('auth')
