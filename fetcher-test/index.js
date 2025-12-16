@@ -8,12 +8,9 @@ const token2 =
 
 async function main() {
   try {
-    const response = await axios.post(
-      `${baseUrl}/auth/change-password`,
-      {
-        currentPassword: "a12345678",
-        newPassword: "a12345679",
-      },
+    const response = await axios.get(
+      `${baseUrl}/users/me`,
+
       {
         headers: {
           Authorization: `Bearer ${token2}`,
