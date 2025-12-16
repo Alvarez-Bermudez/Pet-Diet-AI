@@ -1,5 +1,6 @@
 import {
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -54,19 +55,30 @@ export class AuthService {
 
     const newHash = await bcrypt.hash(dto.newPassword, 10);
 
-    await this.prisma.user.update({
-      where: { id: userId },
-      data: { passwordHash: newHash },
-    });
+    try {
+      await this.prisma.user.update({
+        where: { id: userId },
+        data: { passwordHash: newHash },
+      });
+    } catch (e) {
+      throw new InternalServerErrorException(
+        'Error at changing password. Error at updating database',
+      );
+    }
 
     return { message: 'Password updated successfully!' };
   }
 
   async deleteAccount(userId: string) {
-    await this.prisma.user.delete({
-      where: { id: userId },
-    });
-    return { message: 'Account deleted successfully' };
+    try {
+      await this.prisma.user.delete({
+        where: { id: userId },
+      });
+
+      return { message: 'Account deleted successfully' };
+    } catch (e) {
+      throw new InternalServerErrorException('Error deleting account');
+    }
   }
 
   private createToken(userId: string, email: string) {

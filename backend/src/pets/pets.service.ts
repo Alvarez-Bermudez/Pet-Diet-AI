@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -26,19 +30,26 @@ export class PetsService {
   }
 
   async create(userId: string, createPetDto: CreatePetDto) {
-    const pet = await this.prisma.pet.create({
-      data: {
-        userId,
-        name: createPetDto.name,
-        species: createPetDto.species,
-        breed: createPetDto.breed,
-        birthDate: new Date(createPetDto.birthDate),
-        currentWeight: Prisma.Decimal(createPetDto.currentWeight),
-        activityLevel: createPetDto.activityLevel,
-      },
-    });
+    try {
+      const { name, species, breed, birthDate, currentWeight, activityLevel } =
+        createPetDto;
 
-    return plainToInstance(PetEntity, pet, { excludeExtraneousValues: true });
+      const pet = await this.prisma.pet.create({
+        data: {
+          userId,
+          name,
+          species,
+          breed,
+          birthDate: new Date(birthDate),
+          currentWeight: Prisma.Decimal(currentWeight),
+          activityLevel: activityLevel,
+        },
+      });
+
+      return plainToInstance(PetEntity, pet, { excludeExtraneousValues: true });
+    } catch (e) {
+      throw new InternalServerErrorException('Error creating pet');
+    }
   }
 
   async findOne(userId: string, id: string) {
@@ -49,20 +60,29 @@ export class PetsService {
   }
 
   async update(userId: string, id: string, updatePetDto: UpdatePetDto) {
-    const pet = await this.prisma.pet.update({
-      where: { userId, id },
-      data: {
-        currentWeight: Prisma.Decimal(updatePetDto.currentWeight ?? 0),
-        activityLevel: updatePetDto.activityLevel,
-        menuAccepted: updatePetDto.menuAccepted,
-      },
-    });
+    try {
+      const pet = await this.prisma.pet.update({
+        where: { userId, id },
+        data: {
+          currentWeight: Prisma.Decimal(updatePetDto.currentWeight ?? 0),
+          activityLevel: updatePetDto.activityLevel,
+          menuAccepted: updatePetDto.menuAccepted,
+        },
+      });
 
-    return plainToInstance(PetEntity, pet, { excludeExtraneousValues: true });
+      return plainToInstance(PetEntity, pet, { excludeExtraneousValues: true });
+    } catch (e) {
+      throw new InternalServerErrorException('Error updating pet');
+    }
   }
 
   async remove(userId: string, id: string) {
-    await this.prisma.pet.delete({ where: { id, userId } });
-    return { message: 'Pet deleted successfully' };
+    try {
+      await this.prisma.pet.delete({ where: { id, userId } });
+
+      return { message: 'Pet deleted successfully' };
+    } catch (e) {
+      throw new InternalServerErrorException('Error deleting pet');
+    }
   }
 }

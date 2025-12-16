@@ -1,7 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateMeDto } from './dto/update-me.dto';
 import { UserEntity } from './entities/user.entity';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class UsersService {
@@ -11,7 +16,7 @@ export class UsersService {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
     if (!user) throw new NotFoundException('User not found');
 
-    return new UserEntity(user);
+    return plainToInstance(UserEntity, user, { excludeExtraneousValues: true });
   }
 
   async updateMe(userId: string, updateMeDto: UpdateMeDto) {
@@ -19,10 +24,14 @@ export class UsersService {
       Object.entries(updateMeDto).filter(([_, v]) => v !== ''),
     );
 
-    await this.prisma.user.update({
-      where: { id: userId },
-      data: cleanData,
-    });
+    try {
+      await this.prisma.user.update({
+        where: { id: userId },
+        data: cleanData,
+      });
+    } catch (e) {
+      throw new InternalServerErrorException('Error updating database');
+    }
 
     return { message: 'Profile updated' };
   }
