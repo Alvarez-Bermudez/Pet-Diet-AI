@@ -62,6 +62,7 @@ export class PetsService {
   }
 
   async remove(userId: string, id: string) {
-    return 'nothing now';
+    await this.prisma.pet.delete({ where: { id, userId } });
+    return { message: 'Pet deleted successfully' };
   }
 }
