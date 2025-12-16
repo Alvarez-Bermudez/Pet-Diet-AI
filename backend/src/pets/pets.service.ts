@@ -44,4 +44,15 @@ export class PetsService {
 
     return pet;
   }
+
+  async update(userId: string, id: string, updatePetDto: UpdatePetDto) {
+    return await this.prisma.pet.update({
+      where: { userId, id },
+      data: {
+        currentWeight: Prisma.Decimal(updatePetDto.currentWeight ?? 0),
+        activityLevel: updatePetDto.activityLevel,
+        menuAccepted: updatePetDto.menuAccepted,
+      },
+    });
+  }
 }

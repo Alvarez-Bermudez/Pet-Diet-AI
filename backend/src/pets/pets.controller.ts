@@ -35,4 +35,14 @@ export class PetsController {
   findOne(@UserId() userId: string, @Param('id') id: string) {
     return this.petsService.findOne(userId, id);
   }
+
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  update(
+    @UserId() userId: string,
+    @Param('id') id: string,
+    updatePetDto: UpdatePetDto,
+  ) {
+    return this.petsService.update(userId, id, updatePetDto);
+  }
 }
