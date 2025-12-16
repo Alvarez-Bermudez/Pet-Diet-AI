@@ -45,4 +45,10 @@ export class PetsController {
   ) {
     return this.petsService.update(userId, id, updatePetDto);
   }
+
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  remove(@UserId() userId: string, @Param('id') id: string) {
+    return this.petsService.remove(userId, id);
+  }
 }

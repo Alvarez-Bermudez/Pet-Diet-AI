@@ -10,7 +10,7 @@ const brunoId = "61ce5cef-5156-4058-8009-b434afaddcdd",
 
 async function main() {
   try {
-    const response = await axios.get(`${baseUrl}/pets/a123`, {
+    const response = await axios.get(`${baseUrl}/pets/${brunoId}`, {
       headers: {
         Authorization: `Bearer ${token2}`,
       },

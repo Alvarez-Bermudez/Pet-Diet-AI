@@ -1,8 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Prisma } from 'generated/prisma';
+import { PetEntity } from './entities/pet.entity';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class PetsService {
@@ -20,11 +22,11 @@ export class PetsService {
       },
     });
 
-    return pets;
+    return plainToInstance(PetEntity, pets, { excludeExtraneousValues: true });
   }
 
   async create(userId: string, createPetDto: CreatePetDto) {
-    const pet = this.prisma.pet.create({
+    const pet = await this.prisma.pet.create({
       data: {
         userId,
         name: createPetDto.name,
@@ -36,17 +38,18 @@ export class PetsService {
       },
     });
 
-    return pet;
+    return plainToInstance(PetEntity, pet, { excludeExtraneousValues: true });
   }
 
   async findOne(userId: string, id: string) {
-    const pet = this.prisma.pet.findUnique({ where: { id, userId } });
+    const pet = await this.prisma.pet.findUnique({ where: { id, userId } });
+    if (!pet) throw new NotFoundException('Pet not found');
 
-    return pet;
+    return plainToInstance(PetEntity, pet, { excludeExtraneousValues: true });
   }
 
   async update(userId: string, id: string, updatePetDto: UpdatePetDto) {
-    return await this.prisma.pet.update({
+    const pet = await this.prisma.pet.update({
       where: { userId, id },
       data: {
         currentWeight: Prisma.Decimal(updatePetDto.currentWeight ?? 0),
@@ -54,5 +57,11 @@ export class PetsService {
         menuAccepted: updatePetDto.menuAccepted,
       },
     });
+
+    return plainToInstance(PetEntity, pet, { excludeExtraneousValues: true });
+  }
+
+  async remove(userId: string, id: string) {
+    return 'nothing now';
   }
 }
