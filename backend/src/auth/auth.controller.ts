@@ -38,4 +38,10 @@ export class AuthController {
   ) {
     return this.authService.changePassword(userId, dto);
   }
+
+  @Delete('delete')
+  @UseGuards(JwtAuthGuard)
+  async deleteAccount(@UserId() userId: string) {
+    return this.authService.deleteAccount(userId);
+  }
 }

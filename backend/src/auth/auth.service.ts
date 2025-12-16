@@ -62,6 +62,13 @@ export class AuthService {
     return { message: 'Password updated successfully!' };
   }
 
+  async deleteAccount(userId: string) {
+    await this.prisma.user.delete({
+      where: { id: userId },
+    });
+    return { message: 'Account deleted successfully' };
+  }
+
   private createToken(userId: string, email: string) {
     const payload = { sub: userId, email };
     return {
