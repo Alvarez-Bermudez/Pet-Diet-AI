@@ -3,11 +3,16 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { getPromptGenerateMenu } from 'src/common/utils/getPromptGenerateMenu.util';
+import { GeminiService } from 'src/gemini/gemini.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class DietsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private gemini: GeminiService,
+  ) {}
 
   async getHistory(userId: string, petId: string) {
     const history = await this.prisma.menuHistory.findMany({
@@ -63,5 +68,49 @@ export class DietsService {
     } catch (e) {
       throw new InternalServerErrorException('Failed to accept menu');
     }
+  }
+
+  async generateMenu(userId: string, petId: string) {
+    const pet = await this.prisma.pet.findUnique({
+      where: { id: petId, userId },
+    });
+    if (!pet) throw new NotFoundException('Pet not found');
+
+    const petObject = {
+      species: pet.species,
+      breed: pet.breed,
+      birthDate: pet.birthDate,
+      currentWeightKg: pet.currentWeight,
+      activityLevel: pet.activityLevel,
+    };
+
+    const dailyNutritionalPlan = pet.dailyNutritionalPlan;
+    if (!dailyNutritionalPlan)
+      throw new InternalServerErrorException(
+        'Daily Nutritional Plan not generated yet',
+      );
+
+    const prompt = getPromptGenerateMenu(
+      dailyNutritionalPlan,
+      JSON.stringify(petObject, null, 2),
+    );
+
+    const menu = await this.gemini.generateContent(prompt);
+    // console.log(`menu:\n${menu}`);
+
+    try {
+      await this.prisma.pet.update({
+        where: { id: petId, userId },
+        data: {
+          menu,
+        },
+      });
+    } catch (e) {
+      throw new InternalServerErrorException(
+        'Failed to generate menu: Failed to update database',
+      );
+    }
+
+    return { menu };
   }
 }

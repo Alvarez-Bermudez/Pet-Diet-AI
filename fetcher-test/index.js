@@ -10,14 +10,14 @@ const brunoId = "61ce5cef-5156-4058-8009-b434afaddcdd";
 async function main() {
   try {
     const response = await axios.get(
-      `${baseUrl}/pets/${brunoId}/diets/daily-nutritional-plan`,
+      `${baseUrl}/pets/${brunoId}/diets/menu/`,
+
       {
         headers: {
-          Authorization: `Bearer ${token2}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
-
     console.log(response.data);
   } catch (e) {
     console.error("Error:", e.response?.data || e.message);

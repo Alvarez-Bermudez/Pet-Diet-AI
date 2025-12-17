@@ -52,7 +52,7 @@ export class PetsService {
 
       return plainToInstance(PetEntity, pet, { excludeExtraneousValues: true });
     } catch (e) {
-      throw new InternalServerErrorException('Error creating pet');
+      throw new InternalServerErrorException('Failed to create pet');
     }
   }
 
@@ -119,7 +119,7 @@ Pet info:
 ${JSON.stringify(petObject, null, 2)}
 `;
         const dailyNutritionalPlan = await this.gemini.generateContent(prompt);
-        console.log(`Dailt nutr plan:\n${dailyNutritionalPlan}`);
+        // console.log(`Dailt nutr plan:\n${dailyNutritionalPlan}`);
 
         await this.prisma.pet.update({
           where: { id, userId },
@@ -127,7 +127,7 @@ ${JSON.stringify(petObject, null, 2)}
         });
       }
     } catch (e) {
-      throw new InternalServerErrorException('Error updating pet');
+      throw new InternalServerErrorException('Failed to update pet');
     }
 
     return {
@@ -141,7 +141,7 @@ ${JSON.stringify(petObject, null, 2)}
 
       return { message: 'Pet successfully deleted' };
     } catch (e) {
-      throw new InternalServerErrorException('Error deleting pet');
+      throw new InternalServerErrorException('Failed to remove pet');
     }
   }
 }

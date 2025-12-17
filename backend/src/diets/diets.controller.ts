@@ -46,4 +46,10 @@ export class DietsController {
   acceptMenu(@UserId() userId: string, @Param('id') petId: string) {
     return this.dietsService.acceptMenu(userId, petId);
   }
+
+  @Post('menu/generate')
+  @UseGuards(JwtAuthGuard)
+  generateMenu(@UserId() userId: string, @Param('id') petId: string) {
+    return this.dietsService.generateMenu(userId, petId);
+  }
 }
