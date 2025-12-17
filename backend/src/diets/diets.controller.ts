@@ -25,4 +25,13 @@ export class DietsController {
   ) {
     return this.dietsService.getMenuById(userId, petId, menuId);
   }
+
+  @Get('daily-nutritional-plan')
+  @UseGuards(JwtAuthGuard)
+  getDailyNutritionalPlan(
+    @UserId() userId: string,
+    @Param('id') petId: string,
+  ) {
+    return this.dietsService.getDailyNutritionalPlan(userId, petId);
+  }
 }

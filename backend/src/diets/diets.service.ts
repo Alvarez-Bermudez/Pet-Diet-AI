@@ -18,7 +18,23 @@ export class DietsService {
     const menu = await this.prisma.menuHistory.findUnique({
       where: { id: menuId, petId },
     });
+    if (!menu) throw new NotFoundException('Menu not found');
 
     return menu;
+  }
+
+  async getDailyNutritionalPlan(userId: string, petId: string) {
+    const pet = await this.prisma.pet.findUnique({
+      where: {
+        id: petId,
+        userId,
+      },
+      select: { dailyNutritionalPlan: true },
+    });
+    if (!pet) throw new NotFoundException('Pet not found');
+
+    return {
+      dailyNutritionalPlan: pet.dailyNutritionalPlan,
+    };
   }
 }
