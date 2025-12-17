@@ -64,5 +64,5 @@ model WeightTrack {
   petId  String
   pet    Pet      @relation(fields: [petId], references: [id])
   weight Decimal
-  date   DateTime
+  date   DateTime @default(now())
 }

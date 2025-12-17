@@ -60,8 +60,17 @@ export class PetsService {
   }
 
   async update(userId: string, id: string, updatePetDto: UpdatePetDto) {
+    const existingPet = await this.prisma.pet.findUnique({
+      where: { id, userId },
+    });
+    if (!existingPet) throw new NotFoundException('Pet not found');
+
+    const weightChanged =
+      updatePetDto.currentWeight != undefined &&
+      updatePetDto.currentWeight != Number(existingPet.currentWeight);
+
     try {
-      const pet = await this.prisma.pet.update({
+      await this.prisma.pet.update({
         where: { userId, id },
         data: {
           currentWeight: Prisma.Decimal(updatePetDto.currentWeight ?? 0),
@@ -70,10 +79,22 @@ export class PetsService {
         },
       });
 
-      return plainToInstance(PetEntity, pet, { excludeExtraneousValues: true });
+      if (weightChanged) {
+        //Track weight if changed
+        await this.prisma.weightTrack.create({
+          data: {
+            petId: id,
+            weight: Prisma.Decimal(updatePetDto.currentWeight!),
+          },
+        });
+      }
     } catch (e) {
       throw new InternalServerErrorException('Error updating pet');
     }
+
+    return {
+      message: 'Pet updated successfully',
+    };
   }
 
   async remove(userId: string, id: string) {
