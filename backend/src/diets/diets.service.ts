@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -36,5 +40,28 @@ export class DietsService {
     return {
       dailyNutritionalPlan: pet.dailyNutritionalPlan,
     };
+  }
+
+  async getMenu(userId, petId) {
+    const pet = await this.prisma.pet.findUnique({
+      where: { id: petId, userId },
+      select: { menu: true },
+    });
+    if (!pet) throw new NotFoundException('Pet not found');
+
+    return { menu: pet.menu };
+  }
+
+  async acceptMenu(userId: string, petId: string) {
+    try {
+      await this.prisma.pet.update({
+        where: { id: petId, userId },
+        data: { menuAccepted: true },
+      });
+
+      return { menuAccepted: true };
+    } catch (e) {
+      throw new InternalServerErrorException('Failed to accept menu');
+    }
   }
 }

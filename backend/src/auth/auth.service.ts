@@ -62,11 +62,11 @@ export class AuthService {
       });
     } catch (e) {
       throw new InternalServerErrorException(
-        'Error at changing password. Error at updating database',
+        'Failed to change password. Failed to update database',
       );
     }
 
-    return { message: 'Password updated successfully!' };
+    return { message: 'Password successfully updated!' };
   }
 
   async deleteAccount(userId: string) {
@@ -75,7 +75,7 @@ export class AuthService {
         where: { id: userId },
       });
 
-      return { message: 'Account deleted successfully' };
+      return { message: 'Account successfully deleted' };
     } catch (e) {
       throw new InternalServerErrorException('Error deleting account');
     }

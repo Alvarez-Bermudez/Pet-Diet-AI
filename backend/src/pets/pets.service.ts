@@ -131,7 +131,7 @@ ${JSON.stringify(petObject, null, 2)}
     }
 
     return {
-      message: 'Pet updated successfully',
+      message: 'Pet successfully updated',
     };
   }
 
@@ -139,7 +139,7 @@ ${JSON.stringify(petObject, null, 2)}
     try {
       await this.prisma.pet.delete({ where: { id, userId } });
 
-      return { message: 'Pet deleted successfully' };
+      return { message: 'Pet successfully deleted' };
     } catch (e) {
       throw new InternalServerErrorException('Error deleting pet');
     }

@@ -38,6 +38,6 @@ export class UsersService {
 
   async clearData(userId: string) {
     //Implement later with pets, tracks, etc.
-    return { message: 'Data successfully cleaned' };
+    return { message: 'Data cleaned successfully' };
   }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { DietsService } from './diets.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserId } from 'src/decorators/user.decorator';
@@ -33,5 +33,17 @@ export class DietsController {
     @Param('id') petId: string,
   ) {
     return this.dietsService.getDailyNutritionalPlan(userId, petId);
+  }
+
+  @Get('menu')
+  @UseGuards(JwtAuthGuard)
+  getMenu(@UserId() userId: string, @Param('id') petId: string) {
+    return this.dietsService.getMenu(userId, petId);
+  }
+
+  @Post('menu/accept')
+  @UseGuards(JwtAuthGuard)
+  acceptMenu(@UserId() userId: string, @Param('id') petId: string) {
+    return this.dietsService.acceptMenu(userId, petId);
   }
 }
