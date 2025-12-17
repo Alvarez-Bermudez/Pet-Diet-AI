@@ -1,11 +1,14 @@
 import { OmitType, PartialType } from '@nestjs/mapped-types';
 import { CreatePetDto } from './create-pet.dto';
-import { IsBoolean, IsOptional } from 'class-validator';
+import { IsBoolean, IsEnum, IsNumber, IsOptional } from 'class-validator';
+import { $Enums, ActivityLevel } from 'generated/prisma';
 
-export class UpdatePetDto extends PartialType(
-  OmitType(CreatePetDto, ['birthDate', 'breed', 'name', 'species'] as const),
-) {
-  @IsBoolean()
+export class UpdatePetDto {
+  @IsNumber()
   @IsOptional()
-  menuAccepted?: boolean;
+  currentWeight?: number | undefined;
+
+  @IsEnum(ActivityLevel)
+  @IsOptional()
+  activityLevel?: ActivityLevel | undefined;
 }

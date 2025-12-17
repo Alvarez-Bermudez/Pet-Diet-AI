@@ -9,10 +9,14 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { Prisma } from 'generated/prisma';
 import { PetEntity } from './entities/pet.entity';
 import { plainToInstance } from 'class-transformer';
+import { GeminiService } from 'src/gemini/gemini.service';
 
 @Injectable()
 export class PetsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private gemini: GeminiService,
+  ) {}
 
   async findAll(userId: string) {
     const pets = await this.prisma.pet.findMany({
@@ -66,16 +70,19 @@ export class PetsService {
     if (!existingPet) throw new NotFoundException('Pet not found');
 
     const weightChanged =
-      updatePetDto.currentWeight != undefined &&
+      updatePetDto.currentWeight !== undefined &&
       updatePetDto.currentWeight != Number(existingPet.currentWeight);
 
+    const activityLevelChanged =
+      updatePetDto.activityLevel != undefined &&
+      updatePetDto.activityLevel != existingPet.activityLevel;
+
     try {
-      await this.prisma.pet.update({
+      const pet = await this.prisma.pet.update({
         where: { userId, id },
         data: {
           currentWeight: Prisma.Decimal(updatePetDto.currentWeight ?? 0),
           activityLevel: updatePetDto.activityLevel,
-          menuAccepted: updatePetDto.menuAccepted,
         },
       });
 
@@ -86,6 +93,37 @@ export class PetsService {
             petId: id,
             weight: Prisma.Decimal(updatePetDto.currentWeight!),
           },
+        });
+      }
+
+      if (weightChanged || activityLevelChanged) {
+        const petObject = {
+          species: pet.species,
+          breed: pet.breed,
+          birthDate: pet.birthDate,
+          currentWeightKg: pet.currentWeight,
+          activityLevel: pet.activityLevel,
+        };
+
+        const prompt = `You are a veterinarian nutritionist. Based on the following pet information, generate a customized Daily Nutritional Plan with calories and macronutrient percentages (protein, fat, carbohydrates). The plan must be appropriate for a pet with *low weight* and intended for healthy weight gain.
+
+Return the result in JSON format like below, but with the values calculated for you. Protein, fat and carbohydrates are a percentage of recommendedCalories:
+{
+  "recommendedCalories": "600 kcal/day",
+  "protein": "33%",
+  "fat": "33%",
+  "carbohydrates": "34%"
+}
+
+Pet info:
+${JSON.stringify(petObject, null, 2)}
+`;
+        const dailyNutritionalPlan = await this.gemini.generateContent(prompt);
+        console.log(`Dailt nutr plan:\n${dailyNutritionalPlan}`);
+
+        await this.prisma.pet.update({
+          where: { id, userId },
+          data: { dailyNutritionalPlan },
         });
       }
     } catch (e) {

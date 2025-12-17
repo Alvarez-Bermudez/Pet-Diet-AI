@@ -41,7 +41,7 @@ export class PetsController {
   update(
     @UserId() userId: string,
     @Param('id') id: string,
-    updatePetDto: UpdatePetDto,
+    @Body() updatePetDto: UpdatePetDto,
   ) {
     return this.petsService.update(userId, id, updatePetDto);
   }

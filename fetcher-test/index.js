@@ -5,16 +5,18 @@ const token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3YzMyNmY3Zi1mMTNjLTRjZDItYTgwYS1mOTRiZmU5ZjE5ZGQiLCJlbWFpbCI6Impob25AZ21haWwuY29tIiwiaWF0IjoxNzY1NzcyMjcyLCJleHAiOjE3NjYzNzcwNzJ9.uiGnhcl1xcEmAXYxHgJ9MhNYr-ahuPts2fvuWxGsK50";
 const token2 =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3YzMyNmY3Zi1mMTNjLTRjZDItYTgwYS1mOTRiZmU5ZjE5ZGQiLCJlbWFpbCI6Impob25AZ21haWwuY29tIiwiaWF0IjoxNzY1ODM5NjAzLCJleHAiOjE3NjY0NDQ0MDN9.18GsPp5q0_Tn9t_9J-izEgylpglhAWBKHJoSevw0pvU";
-const brunoId = "61ce5cef-5156-4058-8009-b434afaddcdd",
-  bethovenId = "bfb6ec1d-22d8-4f80-9956-00d531686203";
+const brunoId = "61ce5cef-5156-4058-8009-b434afaddcdd";
 
 async function main() {
   try {
-    const response = await axios.get(`${baseUrl}/pets/${brunoId}/weights`, {
-      headers: {
-        Authorization: `Bearer ${token2}`,
-      },
-    });
+    const response = await axios.get(
+      `${baseUrl}/pets/${brunoId}/diets/daily-nutritional-plan`,
+      {
+        headers: {
+          Authorization: `Bearer ${token2}`,
+        },
+      }
+    );
 
     console.log(response.data);
   } catch (e) {
