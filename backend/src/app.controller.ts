@@ -11,4 +11,9 @@ export class AppController {
   printHello() {
     return 'Hello';
   }
+
+  @Get('test-gemini')
+  testGemini() {
+    return this.appService.testGemini();
+  }
 }

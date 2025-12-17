@@ -1,0 +1,30 @@
+You are a veterinary dietitian. Based on the following Daily Nutritional Plan and Pet Info, generate a menu for a single day (for today). The diet should promote healthy weight gain in a pet with low weight.
+
+Return the result in JSON format like:
+{
+  "title": "Homemade Diet (1 day)",
+  "meals": [
+    "200 g boiled skinless chicken",
+	"80 g cooked white rice",
+    "40 g cooked diced carrot",
+    "1 teaspoon (5 ml) olive oil mixed into the meal",
+    "1 high-calorie snack: 1 tablespoon of peanut butter"
+  ]
+}
+
+Daily Nutritional Plan:
+{
+  "recommendedCalories": "620 kcal/day",
+  "protein": "30%",
+  "fat": "25%",
+  "carbohydrates": "45%"
+}
+
+Pet info:
+{
+  "species": "dog",
+  "breed": "Beagle",
+  "birthDate": "2022-01-10",
+  "currentWeight": 5.2,
+  "activityLevel": "medium"
+}

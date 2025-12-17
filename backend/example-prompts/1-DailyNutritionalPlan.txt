@@ -1,0 +1,18 @@
+You are a veterinarian nutritionist. Based on the following pet information, generate a customized Daily Nutritional Plan with calories and macronutrient percentages (protein, fat, carbohydrates). The plan must be appropriate for a pet with *low weight* and intended for healthy weight gain.
+
+Return the result in JSON format like:
+{
+  "recommendedCalories": "620 kcal/day",
+  "protein": "30%",
+  "fat": "25%",
+  "carbohydrates": "45%"
+}
+
+Pet info:
+{
+  "species": "dog",
+  "breed": "Beagle",
+  "birthDate": "2022-01-10",
+  "currentWeightKg": 5.2,
+  "activityLevel": "medium"
+}
