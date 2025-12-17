@@ -7,9 +7,10 @@ import { PetsModule } from './pets/pets.module';
 import { UsersModule } from './users/users.module';
 import { WeightsModule } from './weights/weights.module';
 import { GeminiModule } from './gemini/gemini.module';
+import { DietsModule } from './diets/diets.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule, PetsModule, UsersModule, WeightsModule, GeminiModule],
+  imports: [PrismaModule, AuthModule, PetsModule, UsersModule, WeightsModule, GeminiModule, DietsModule],
   controllers: [AppController],
   providers: [AppService],
 })
