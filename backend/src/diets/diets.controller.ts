@@ -2,6 +2,7 @@ import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { DietsService } from './diets.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserId } from 'src/decorators/user.decorator';
+import { PetOwnershipGuard } from 'src/guards/pet-ownership.guard';
 
 @Controller('pets/:id/diets')
 export class DietsController {
@@ -9,12 +10,14 @@ export class DietsController {
 
   @Get('history')
   @UseGuards(JwtAuthGuard)
+  @UseGuards(PetOwnershipGuard)
   getHistory(@UserId() userId: string, @Param('id') petId: string) {
     return this.dietsService.getHistory(userId, petId);
   }
 
   @Get('history/:menu_id')
   @UseGuards(JwtAuthGuard)
+  @UseGuards(PetOwnershipGuard)
   getMenuById(
     @UserId() userId: string,
     @Param('id') petId: string,
