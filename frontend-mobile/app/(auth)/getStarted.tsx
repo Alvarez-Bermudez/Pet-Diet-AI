@@ -1,7 +1,10 @@
+import { useRouter } from "expo-router";
 import { Image, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function GetStartedPage() {
+  const router = useRouter();
+
   return (
     <SafeAreaView className="p-5 justify-between items-center flex-1 bg-background">
       <View className="gap-2.5 items-start">
@@ -18,7 +21,10 @@ export default function GetStartedPage() {
         </Text>
       </View>
 
-      <Pressable className="w-full">
+      <Pressable
+        className="w-full"
+        onPress={() => router.push("/(auth)/singin")}
+      >
         <View className="bg-primary py-3 px-[52px] justify-center flex-row rounded-[13px]">
           <Text
             className="text-buttonText text-surface"
