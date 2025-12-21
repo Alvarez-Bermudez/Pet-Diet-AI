@@ -8,7 +8,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
-      router.replace("/(auth)/singin");
+      router.replace("/(auth)/getStarted");
     }
   }, [isAuthenticated, loading]);
 
