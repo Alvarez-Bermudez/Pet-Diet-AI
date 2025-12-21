@@ -38,11 +38,14 @@ export default function SigninPage() {
             value={email}
             setValue={setEmail}
             iconPath={emailIcon}
+            placeholder="Enter your email..."
           />
+
           <TextInputWithIcon
             value={password}
             setValue={setPassword}
             iconPath={lockIcon}
+            placeholder="Enter your password..."
           />
         </View>
         <View className="flex-row justify-between items-center w-full">
