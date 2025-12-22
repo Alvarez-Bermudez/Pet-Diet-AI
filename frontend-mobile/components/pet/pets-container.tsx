@@ -27,7 +27,15 @@ const PetsContainer = ({ pets }: PetsContainerProps) => {
         My pets
       </Text>
       {!pets || pets.length === 0 ? (
-        <Text>No pets yet</Text>
+        <Text
+          style={{
+            fontFamily: "Nunito_400Regular",
+            fontSize: 16,
+            color: colors.textPrimary,
+          }}
+        >
+          No pets yet
+        </Text>
       ) : (
         pets.map((pet) => (
           <PetAction key={pet.id} title={pet.name} onPress={() => {}} />
