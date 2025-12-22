@@ -39,7 +39,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       setIsAuhenticated(true);
       const token = response.data.access_token;
-      console.log(`Dentro de login function, token: ${token}`);
       setToken(token);
       await AsyncStorage.setItem(TOKEN_KEY, token);
       setLoading(false);

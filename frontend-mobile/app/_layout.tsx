@@ -6,7 +6,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider, useAuth } from "@/lib/auth/auth";
 import AuthGate from "./AuthGate";
 import { Poppins_500Medium } from "@expo-google-fonts/poppins";
-import { Nunito_400Regular, Nunito_500Medium } from "@expo-google-fonts/nunito";
+import {
+  Nunito_400Regular,
+  Nunito_500Medium,
+  Nunito_700Bold,
+} from "@expo-google-fonts/nunito";
 import { Inter_400Regular, Inter_500Medium } from "@expo-google-fonts/inter";
 
 const queryClient = new QueryClient();
@@ -16,6 +20,7 @@ export default function RootLayout() {
     Poppins_500Medium,
     Nunito_400Regular,
     Nunito_500Medium,
+    Nunito_700Bold,
     Inter_400Regular,
     Inter_500Medium,
   });
