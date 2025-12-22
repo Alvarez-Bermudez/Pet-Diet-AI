@@ -108,7 +108,7 @@ export default function SignUpPage() {
             Already have an account?{" "}
           </Text>
 
-          <Pressable onPress={() => router.push("/(auth)/signup")}>
+          <Pressable onPress={() => router.push("/(auth)/singin")}>
             <Text
               className="text-bodyBase text-primary"
               style={{ fontFamily: "Nunito_400Regular" }}

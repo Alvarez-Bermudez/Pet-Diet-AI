@@ -1,6 +1,6 @@
 import { styles } from "@/constants/styles";
-import { useState } from "react";
-import { Image, Pressable, Text, TextInput, View } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { Alert, Image, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import clsx from "clsx";
 import { Checkbox, TextInput as TextInputPaper } from "react-native-paper";
@@ -8,12 +8,70 @@ import { TextInputWithIcon } from "@/components/TextInput";
 import emailIcon from "../../assets/images/Email.png";
 import lockIcon from "../../assets/images/Lock.png";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  SIGN_IN_EMAIL_KEY,
+  SIGN_IN_PASSWORD_KEY,
+  SIGN_IN_REMEMBER_ME_KEY,
+} from "@/constants/auth";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { baseUrl } from "@/constants/constants";
+import { AuthContext, useAuth } from "@/lib/auth/auth";
+
+type SignInDto = {
+  email: string;
+  password: string;
+};
 
 export default function SigninPage() {
   const router = useRouter();
+  const [rememberMe, setRememberMe] = useState<boolean>();
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
-  const [rememberMe, setRememberMe] = useState<boolean>(false);
+  const { login, loading, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    async function updateStates() {
+      const rememberMe = Boolean(
+        await AsyncStorage.getItem(SIGN_IN_REMEMBER_ME_KEY)
+      );
+      setRememberMe(rememberMe);
+      if (rememberMe) {
+        const _email = (await AsyncStorage.getItem(SIGN_IN_EMAIL_KEY)) ?? "";
+        const _password =
+          (await AsyncStorage.getItem(SIGN_IN_PASSWORD_KEY)) ?? "";
+        setEmail(_email);
+        setPassword(_password);
+      }
+    }
+    updateStates();
+  }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) router.push("/(tabs)/(pet)");
+  }, [isAuthenticated]);
+
+  async function handleSubmit() {
+    console.log("Sign in pressed!");
+
+    await AsyncStorage.setItem(SIGN_IN_REMEMBER_ME_KEY, String(rememberMe));
+
+    if (rememberMe) {
+      if (email) await AsyncStorage.setItem(SIGN_IN_EMAIL_KEY, email);
+      if (password) await AsyncStorage.setItem(SIGN_IN_PASSWORD_KEY, password);
+    }
+
+    if (!email || !password) {
+      Alert.alert(
+        "Failed to sign in",
+        "Email or password fields are incomplete"
+      );
+      return;
+    }
+
+    await login(email, password);
+  }
 
   return (
     <SafeAreaView className="relative flex-1 px-5 py-5 justify-center items-center bg-background gap-[30px]">
@@ -74,7 +132,7 @@ export default function SigninPage() {
         </View>
       </View>
 
-      <Pressable className="w-full" onPress={() => {}}>
+      <Pressable className="w-full" onPress={handleSubmit}>
         <View className="bg-primary py-3 px-[18px] justify-center flex-row rounded-[13px]">
           <Text
             className="text-buttonText text-surface"

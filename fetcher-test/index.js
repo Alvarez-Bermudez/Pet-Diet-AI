@@ -37,7 +37,8 @@ Crear user:
 const response = await axios.post("http://localhost:3000/auth/signup", {
       name: "Jhon",
       email: "jhon@gmail.com",
-      password: "a12345678",
+      //password: "a12345678",
+      password: "a12345679"
     });
 */
 
