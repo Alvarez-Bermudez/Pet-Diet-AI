@@ -24,7 +24,6 @@ export default function Layout() {
           backgroundColor: colors.background,
           padding: 5,
           height: "13%",
-          shadowColor: "#FF6F61",
         },
       }}
     >

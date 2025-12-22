@@ -1,9 +1,4 @@
-export const styles = {
-  textInput: {
-    borderWidth: 1,
-    padding: 8,
-  },
-};
+import { StyleSheet } from "react-native";
 
 export const colors = {
   primary: "#ff6f61" /* Coral suave – amor y calidez */,
@@ -17,3 +12,25 @@ export const colors = {
   success: "#00c49a" /* Éxito o progreso (sin usar verde clásico) */,
   error: "#ef5350" /* Rojo coral – errores */,
 };
+
+export const styles = StyleSheet.create({
+  layout: {
+    backgroundColor: colors.background,
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    gap: 10,
+    // marginHorizontal: "auto",
+    alignItems: "center",
+  },
+  textInput: {
+    borderWidth: 1,
+    padding: 8,
+  },
+  textButton: {
+    fontFamily: "Inter_500Medium",
+    color: colors.surface,
+    fontSize: 16,
+    fontWeight: "500",
+  },
+});
