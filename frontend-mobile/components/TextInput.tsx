@@ -1,7 +1,8 @@
+import { colors } from "@/constants/styles";
 import { Dispatch, SetStateAction } from "react";
 import { Image, TextInput, View } from "react-native";
 
-export const TextInputWithIcon = ({
+const TextInputWithIcon = ({
   iconPath,
   value,
   setValue,
@@ -29,3 +30,49 @@ export const TextInputWithIcon = ({
     </View>
   );
 };
+
+const TextInputX = ({
+  value,
+  setValue,
+  placeholder,
+  secureTextEntry = false,
+}: {
+  value: any;
+  setValue: Dispatch<SetStateAction<any>>;
+  placeholder: string;
+  secureTextEntry?: boolean;
+}) => {
+  return (
+    <View
+      style={{
+        width: "100%",
+        flexDirection: "row",
+        alignItems: "center",
+        paddingVertical: 4,
+        paddingHorizontal: 8,
+        borderRadius: 5,
+        backgroundColor: colors.surface,
+        overflow: "hidden",
+      }}
+    >
+      <TextInput
+        value={value}
+        onChangeText={(text) => setValue(text)}
+        placeholder={placeholder}
+        style={{
+          width: "100%",
+          paddingHorizontal: 8,
+          color: colors.textPrimary,
+          textDecorationLine: "none",
+          backgroundColor: colors.surface,
+          borderRadius: 5,
+          fontFamily: "Nunito_500Medium",
+        }}
+        placeholderTextColor={"#C5C5C5"}
+        secureTextEntry={secureTextEntry}
+      />
+    </View>
+  );
+};
+
+export { TextInputWithIcon, TextInputX };

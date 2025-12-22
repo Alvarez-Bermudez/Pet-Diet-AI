@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/auth/auth";
 import { PetHome } from "@/lib/auth/definitions";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { AnimatedFAB } from "react-native-paper";
@@ -15,7 +16,7 @@ export default function MyPetsPage() {
   const { token } = useAuth();
   const [isExtendedAddNewPet, setIsExtendedAddNewPet] = useState(true);
   const [visibleAddNewPet, setVisibleAddNewPet] = useState(true);
-  const [counterAddNewPet, setCounterAddNewPet] = useState(0);
+  const router = useRouter();
 
   const { data, isLoading, error } = useQuery<PetHome[]>({
     queryKey: ["my_pets"],
@@ -32,6 +33,7 @@ export default function MyPetsPage() {
     if (isExtendedAddNewPet === false) setIsExtendedAddNewPet(true);
     else {
       setTimeout(() => {
+        router.push("/(tabs)/my_pets/add-new-pet");
         setIsExtendedAddNewPet(false);
       }, 500);
     }

@@ -1,8 +1,11 @@
 import { colors, stylesBase } from "@/constants/styles";
-import { Image, Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { Image, Pressable, Text, View } from "react-native";
 
 type HeaderProps = { title: string; subtitle: string; iconBack?: boolean };
 const Header = ({ title, subtitle, iconBack = false }: HeaderProps) => {
+  const router = useRouter();
+
   return (
     <View
       style={{
@@ -14,7 +17,9 @@ const Header = ({ title, subtitle, iconBack = false }: HeaderProps) => {
       }}
     >
       {iconBack && (
-        <Image source={require("@/assets/images/chevron-left-primary.png")} />
+        <Pressable onPress={() => router.back()}>
+          <Image source={require("@/assets/images/chevron-left-primary.png")} />
+        </Pressable>
       )}
       <View style={{ justifyContent: "flex-start", alignItems: "flex-start" }}>
         <Text
