@@ -12,6 +12,7 @@ import {
   Nunito_700Bold,
 } from "@expo-google-fonts/nunito";
 import { Inter_400Regular, Inter_500Medium } from "@expo-google-fonts/inter";
+import { PaperProvider } from "react-native-paper";
 
 const queryClient = new QueryClient();
 
@@ -27,11 +28,13 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <AuthGate>
-          <Slot />
-        </AuthGate>
-      </AuthProvider>
+      <PaperProvider>
+        <AuthProvider>
+          <AuthGate>
+            <Slot />
+          </AuthGate>
+        </AuthProvider>
+      </PaperProvider>
     </QueryClientProvider>
   );
 }

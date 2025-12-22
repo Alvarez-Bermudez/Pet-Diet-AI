@@ -6,10 +6,21 @@ import { useState } from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { RadioButton } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Slider from "@react-native-community/slider";
+import ActivityLevelSlider from "@/components/my-pets/ActivityLevelSlider";
+
+const OPTIONS = [
+  { label: "Kg", value: "kg" },
+  { label: "lb", value: "lb" },
+];
 
 export default function AddNewPetPage() {
   const [speciesChecked, setSpeciesChecked] = useState<Species>("DOG");
   const [breed, setBreed] = useState<string>();
+  const [currentWeight, setCurrentWeight] = useState<number>();
+  const [weightMeasureUnit, setWeightMeasureUnit] = useState<string>();
+  const [activityLevelValue, setActivityLevelValue] = useState<number>(1);
+
   return (
     <SafeAreaView style={[styles.layout, { gap: 25 }]}>
       <Header title="Add Pet" subtitle="Add new pet" iconBack />
@@ -93,6 +104,29 @@ export default function AddNewPetPage() {
           <Image source={require("@/assets/images/calendar.png")} />
         </Pressable>
       </View>
+
+      <View
+        style={{
+          width: "100%",
+          justifyContent: "flex-start",
+          alignItems: "flex-start",
+          gap: 10,
+        }}
+      >
+        <Text style={[stylesBase.small, { color: colors.textPrimary }]}>
+          Current weight (Kg):
+        </Text>
+        <TextInputX
+          value={currentWeight}
+          setValue={setCurrentWeight}
+          placeholder="Enter weight..."
+        />
+      </View>
+
+      <ActivityLevelSlider
+        value={activityLevelValue}
+        setValue={setActivityLevelValue}
+      />
     </SafeAreaView>
   );
 }
