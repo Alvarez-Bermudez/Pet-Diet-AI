@@ -20,6 +20,8 @@ export class PetsService {
   ) {}
 
   async findAll(userId: string) {
+    // await new Promise((resolve) => setTimeout(resolve, 4000));
+
     const pets = await this.prisma.pet.findMany({
       where: { userId: userId },
       select: {

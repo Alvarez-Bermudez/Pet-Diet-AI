@@ -3,48 +3,77 @@ import { PetHome } from "@/lib/auth/definitions";
 import { useState } from "react";
 import { Image, Pressable, Text, View } from "react-native";
 
-type PetsContainerProps = { pets?: PetHome[] };
+type PetsContainerProps = { pets?: PetHome[]; isLoading: boolean };
 
-const PetsContainer = ({ pets }: PetsContainerProps) => {
+const PetsContainer = ({ pets, isLoading }: PetsContainerProps) => {
   return (
-    <View
-      style={{
-        backgroundColor: colors.surface,
-        padding: 12,
-        borderRadius: 10,
-        alignItems: "flex-start",
-        justifyContent: "flex-start",
-        gap: 4,
-        width: "100%",
-      }}
-    >
-      <Text
-        style={{
-          fontFamily: "Nunito_400Regular",
-          fontSize: 12,
-          color: colors.textSecondary,
-          width: "100%",
-        }}
-      >
-        My pets
-      </Text>
-      {!pets || pets.length === 0 ? (
-        <Text
+    <>
+      {isLoading ? (
+        <>
+          <View
+            style={{
+              backgroundColor: colors.surface,
+              padding: 12,
+              borderRadius: 10,
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+              gap: 4,
+              width: "100%",
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "Nunito_400Regular",
+                fontSize: 16,
+                color: colors.textSecondary,
+                width: "100%",
+              }}
+            >
+              Loading
+            </Text>
+          </View>
+        </>
+      ) : (
+        <View
           style={{
-            fontFamily: "Nunito_400Regular",
-            fontSize: 16,
-            color: colors.textPrimary,
+            backgroundColor: colors.surface,
+            padding: 12,
+            borderRadius: 10,
+            alignItems: "flex-start",
+            justifyContent: "flex-start",
+            gap: 4,
             width: "100%",
           }}
         >
-          No pets yet
-        </Text>
-      ) : (
-        pets.map((pet) => (
-          <PetAction key={pet.id} title={pet.name} onPress={() => {}} />
-        ))
+          <Text
+            style={{
+              fontFamily: "Nunito_400Regular",
+              fontSize: 12,
+              color: colors.textSecondary,
+              width: "100%",
+            }}
+          >
+            My pets
+          </Text>
+          {!pets || pets.length === 0 ? (
+            <Text
+              style={{
+                fontFamily: "Nunito_400Regular",
+                fontSize: 16,
+                color: colors.textPrimary,
+                width: "100%",
+              }}
+            >
+              No pets yet
+            </Text>
+          ) : (
+            pets.map((pet) => (
+              <PetAction key={pet.id} title={pet.name} onPress={() => {}} />
+            ))
+          )}
+        </View>
       )}
-    </View>
+    </>
   );
 };
 

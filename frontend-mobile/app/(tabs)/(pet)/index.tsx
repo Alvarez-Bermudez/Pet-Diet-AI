@@ -38,7 +38,7 @@ export default function PetPage() {
         <Image source={require("@/assets/images/plus-surface.png")} />
       </RectButton>
 
-      <PetsContainer pets={data} />
+      <PetsContainer pets={data} isLoading={isLoading} />
       <SectionAction
         title="Manage pets"
         onPress={() => router.push("/(tabs)/my_pets")}
