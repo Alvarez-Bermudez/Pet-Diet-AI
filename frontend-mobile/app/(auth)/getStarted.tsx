@@ -10,7 +10,7 @@ export default function GetStartedPage() {
       <View className="gap-2.5 items-start">
         <Image
           source={require("../../assets/images/get-started-logo.png")}
-          style={{ borderRadius: 15 }}
+          style={{ width: "100%", borderRadius: 15 }}
         />
         <Text
           className=" text-bodyBase text-textPrimary text-center "

@@ -54,7 +54,10 @@ export default function MyPetsPage() {
         animateFrom={"right"}
         iconMode={"static"}
         color={colors.primary}
-        style={[localStyles.fabStyle, { backgroundColor: colors.surface }]}
+        style={[
+          localStyles.fabStyle,
+          { backgroundColor: colors.surface, width: "auto" },
+        ]}
       />
     </SafeAreaView>
   );

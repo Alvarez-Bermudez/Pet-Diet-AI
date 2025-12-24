@@ -15,6 +15,7 @@ const PetsContainer = ({ pets }: PetsContainerProps) => {
         alignItems: "flex-start",
         justifyContent: "flex-start",
         gap: 4,
+        width: "100%",
       }}
     >
       <Text
@@ -22,6 +23,7 @@ const PetsContainer = ({ pets }: PetsContainerProps) => {
           fontFamily: "Nunito_400Regular",
           fontSize: 12,
           color: colors.textSecondary,
+          width: "100%",
         }}
       >
         My pets
@@ -32,6 +34,7 @@ const PetsContainer = ({ pets }: PetsContainerProps) => {
             fontFamily: "Nunito_400Regular",
             fontSize: 16,
             color: colors.textPrimary,
+            width: "100%",
           }}
         >
           No pets yet

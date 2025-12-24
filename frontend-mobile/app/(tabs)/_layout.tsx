@@ -1,13 +1,14 @@
-import { colors } from "@/constants/styles";
+import { colors, styles } from "@/constants/styles";
 import { Stack, Tabs } from "expo-router";
 // import dogIcon from '../../assets/images/Dog.svg'
-import { Image } from "react-native";
+import { Image, Text } from "react-native";
 
 export default function Layout() {
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: colors.primary,
+
         tabBarLabelStyle: {
           padding: 5,
           fontFamily: "Nunito_700Bold",
@@ -24,6 +25,7 @@ export default function Layout() {
           backgroundColor: colors.background,
           padding: 5,
           height: "13%",
+          position: "relative",
         },
       }}
     >
@@ -32,6 +34,8 @@ export default function Layout() {
         options={{
           title: "Pet",
           headerShown: false,
+          tabBarLabel: ({ focused }) =>
+            focused ? <Text style={styles.tabBarLabelStyle}>Pet</Text> : null,
           tabBarIcon: ({ color, focused }) =>
             focused ? (
               <Image source={require("../../assets/images/Dog-selected.png")} />
@@ -45,6 +49,10 @@ export default function Layout() {
         options={{
           title: "My pets",
           headerShown: false,
+          tabBarLabel: ({ focused }) =>
+            focused ? (
+              <Text style={styles.tabBarLabelStyle}>My Pets</Text>
+            ) : null,
           tabBarIcon: ({ color, focused }) =>
             focused ? (
               <Image
@@ -60,6 +68,8 @@ export default function Layout() {
         options={{
           title: "Logs",
           headerShown: false,
+          tabBarLabel: ({ focused }) =>
+            focused ? <Text style={styles.tabBarLabelStyle}>Logs</Text> : null,
           tabBarIcon: ({ color, focused }) =>
             focused ? (
               <Image
@@ -75,6 +85,10 @@ export default function Layout() {
         options={{
           title: "Profile",
           headerShown: false,
+          tabBarLabel: ({ focused }) =>
+            focused ? (
+              <Text style={styles.tabBarLabelStyle}>Profile</Text>
+            ) : null,
           tabBarIcon: ({ color, focused }) =>
             focused ? (
               <Image

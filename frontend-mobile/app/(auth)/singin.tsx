@@ -33,9 +33,11 @@ export default function SigninPage() {
 
   useEffect(() => {
     async function updateStates() {
-      const rememberMe = Boolean(
-        await AsyncStorage.getItem(SIGN_IN_REMEMBER_ME_KEY)
-      );
+      const rememberMe =
+        (await AsyncStorage.getItem(SIGN_IN_REMEMBER_ME_KEY)) === "true"
+          ? true
+          : false;
+
       setRememberMe(rememberMe);
       if (rememberMe) {
         const _email = (await AsyncStorage.getItem(SIGN_IN_EMAIL_KEY)) ?? "";
@@ -104,6 +106,7 @@ export default function SigninPage() {
             setValue={setPassword}
             iconPath={lockIcon}
             placeholder="Enter your password..."
+            secureTextEntry
           />
         </View>
         <View className="flex-row justify-between items-center w-full">

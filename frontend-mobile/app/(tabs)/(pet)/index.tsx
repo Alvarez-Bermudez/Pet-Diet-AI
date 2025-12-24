@@ -29,7 +29,10 @@ export default function PetPage() {
 
   return (
     <SafeAreaView style={styles.layout}>
-      <Image source={require("@/assets/images/logo-home.png")} />
+      <Image
+        source={require("@/assets/images/logo-home.png")}
+        style={{ width: "100%", borderRadius: 15 }}
+      />
       <RectButton onPress={() => {}}>
         <Text style={styles.textButton}>Add new pet</Text>
         <Image source={require("@/assets/images/plus-surface.png")} />

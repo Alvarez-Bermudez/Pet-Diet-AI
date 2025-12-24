@@ -7,3 +7,12 @@ export type PetHome = {
   species: Species;
   breed: string;
 };
+
+export type CreatePetDto = {
+  name: string;
+  species: Species;
+  breed: string;
+  birthDate: string;
+  currentWeight: number;
+  activityLevel: ActivityLevel;
+};

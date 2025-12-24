@@ -68,6 +68,13 @@ export const styles = StyleSheet.create({
     // marginHorizontal: "auto",
     alignItems: "center",
   },
+  tabBarLabelStyle: {
+    color: colors.primary,
+    padding: 5,
+    fontFamily: "Nunito_700Bold",
+    fontSize: 12,
+    fontWeight: "700",
+  },
   textInput: {
     borderWidth: 1,
     padding: 8,
