@@ -8,6 +8,8 @@ import { UpdatePetDto } from './dto/update-pet.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Prisma } from 'generated/prisma';
 import { PetEntity } from './entities/pet.entity';
+import { PetEntity2 } from './entities/pet.entity2';
+
 import { plainToInstance } from 'class-transformer';
 import { GeminiService } from 'src/gemini/gemini.service';
 import { getPromptGenerateDailyNutritionalPlan } from 'src/common/utils/getPromptGenerateDailyNutritionalPlan.util';
@@ -33,7 +35,7 @@ export class PetsService {
       },
     });
 
-    return plainToInstance(PetEntity, pets, { excludeExtraneousValues: true });
+    return pets;
   }
 
   async create(userId: string, createPetDto: CreatePetDto) {
@@ -53,7 +55,10 @@ export class PetsService {
         },
       });
 
-      return plainToInstance(PetEntity, pet, { excludeExtraneousValues: true });
+      return plainToInstance(PetEntity2, pet, {
+        excludeExtraneousValues: true,
+      });
+      // return pet;
     } catch (e) {
       throw new InternalServerErrorException('Failed to create pet');
     }
@@ -63,7 +68,9 @@ export class PetsService {
     const pet = await this.prisma.pet.findUnique({ where: { id, userId } });
     if (!pet) throw new NotFoundException('Pet not found');
 
-    return plainToInstance(PetEntity, pet, { excludeExtraneousValues: true });
+    const _pet = { ...pet };
+    // return plainToInstance(PetEntity2, _pet, { excludeExtraneousValues: true });
+    return new PetEntity2(_pet);
   }
 
   async update(userId: string, id: string, updatePetDto: UpdatePetDto) {

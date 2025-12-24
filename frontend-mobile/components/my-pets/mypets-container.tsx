@@ -4,6 +4,7 @@ import { useAuth } from "@/lib/auth/auth";
 import { PetHome } from "@/lib/auth/definitions";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Alert, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { Button, Divider, Menu } from "react-native-paper";
@@ -29,6 +30,7 @@ const MyPetsContainer = ({ pets }: MyPetsContainerProps) => {
 const PetSection = ({ data }: { data: PetHome }) => {
   const queryClient = useQueryClient();
   const { token } = useAuth();
+  const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: () =>
@@ -65,6 +67,11 @@ const PetSection = ({ data }: { data: PetHome }) => {
         onPress: () => mutation.mutate(),
       },
     ]);
+  }
+
+  function handleEdit() {
+    closeMenu();
+    router.push({ pathname: "/(tabs)/my_pets/[id]", params: { id: data.id } });
   }
 
   const ButtonMore = () => (
@@ -115,7 +122,7 @@ const PetSection = ({ data }: { data: PetHome }) => {
             backgroundColor: colors.background,
           }}
         >
-          <Menu.Item onPress={() => {}} title="Edit" />
+          <Menu.Item onPress={handleEdit} title="Edit" />
           <Divider />
           <Menu.Item
             trailingIcon={"close"}

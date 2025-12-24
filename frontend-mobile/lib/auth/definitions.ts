@@ -16,3 +16,16 @@ export type CreatePetDto = {
   currentWeight: number;
   activityLevel: ActivityLevel;
 };
+
+export type PetByIdEntity = {
+  id: string;
+  name: string;
+  species: Species;
+  breed: string;
+  birthDate: Date;
+  currentWeight: number;
+  activityLevel: ActivityLevel;
+  dailyNutritionalPlan?: string | null;
+  menu?: string | null;
+  menuAccepted?: boolean | null;
+};

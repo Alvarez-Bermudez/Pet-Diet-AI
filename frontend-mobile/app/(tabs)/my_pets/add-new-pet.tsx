@@ -57,6 +57,7 @@ export default function AddNewPetPage() {
       }
     },
     onSuccess: (data) => {
+      console.log(`pet created: ${JSON.stringify(data.data, null, 2)}`);
       queryClient.invalidateQueries({ queryKey: ["pets"] });
       queryClient.invalidateQueries({ queryKey: ["my_pets"] });
       router.back();
