@@ -4,11 +4,12 @@ import { baseUrl } from "@/constants/constants";
 import { colors, styles } from "@/constants/styles";
 import { useAuth } from "@/lib/auth/auth";
 import { PetHome } from "@/lib/auth/definitions";
+import { getStatusBarHeight } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Platform, StatusBar, StyleSheet, Text, View } from "react-native";
 import { AnimatedFAB } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -39,8 +40,10 @@ export default function MyPetsPage() {
     }
   }
 
+  const statusBarHeight = getStatusBarHeight();
+
   return (
-    <SafeAreaView style={[styles.layout, { gap: 20 }]}>
+    <View style={[styles.layout, { gap: 20, paddingTop: statusBarHeight }]}>
       <Header title="My Pets" subtitle="Manage your pets" />
 
       <MyPetsContainer pets={data} />
@@ -59,7 +62,7 @@ export default function MyPetsPage() {
           { backgroundColor: colors.surface, width: "auto" },
         ]}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 

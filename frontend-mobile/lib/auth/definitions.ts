@@ -35,3 +35,15 @@ export type UserEntity = {
   email: string;
   phone?: string | null;
 };
+
+export type DailyNutritionalPlan = {
+  recommendedCalories: string;
+  protein: string;
+  fat: string;
+  carbohydrates: string;
+};
+
+export type Menu = {
+  title: string;
+  meals: string[];
+};

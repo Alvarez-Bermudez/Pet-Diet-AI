@@ -1,11 +1,14 @@
 import { colors } from "@/constants/styles";
 import { PetHome } from "@/lib/auth/definitions";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Image, Pressable, Text, View } from "react-native";
 
 type PetsContainerProps = { pets?: PetHome[]; isLoading: boolean };
 
 const PetsContainer = ({ pets, isLoading }: PetsContainerProps) => {
+  const router = useRouter();
+
   return (
     <>
       {isLoading ? (
@@ -41,7 +44,7 @@ const PetsContainer = ({ pets, isLoading }: PetsContainerProps) => {
             borderRadius: 10,
             alignItems: "flex-start",
             justifyContent: "flex-start",
-            gap: 4,
+            gap: 8,
             width: "100%",
           }}
         >
@@ -68,7 +71,16 @@ const PetsContainer = ({ pets, isLoading }: PetsContainerProps) => {
             </Text>
           ) : (
             pets.map((pet) => (
-              <PetAction key={pet.id} title={pet.name} onPress={() => {}} />
+              <PetAction
+                key={pet.id}
+                title={pet.name}
+                onPress={() =>
+                  router.push({
+                    pathname: "/(tabs)/(pet)/dashboard/id",
+                    params: { id: pet.id },
+                  })
+                }
+              />
             ))
           )}
         </View>

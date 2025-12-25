@@ -5,10 +5,11 @@ import { baseUrl } from "@/constants/constants";
 import { colors, styles, stylesBase } from "@/constants/styles";
 import { useAuth } from "@/lib/auth/auth";
 import { PetHome } from "@/lib/auth/definitions";
+import { getStatusBarHeight } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { Platform, ScrollView, StatusBar, Text, View } from "react-native";
 import { List } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -25,18 +26,15 @@ export default function LogsPage() {
         .then((res) => res.data),
   });
 
+  const statusBarHeight = getStatusBarHeight();
+
   return (
-    <SafeAreaView style={[styles.layout, { gap: 20 }]}>
+    <View style={[styles.layout, { gap: 20, paddingTop: statusBarHeight }]}>
       <Header title="Logs" subtitle="Monitor your pets' meals and weight" />
 
       <ScrollView
-        style={{ width: "100%" }}
-        contentContainerStyle={{
-          gap: 15,
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          width: "100%",
-        }}
+        style={styles.mainScrollViewContainer}
+        contentContainerStyle={styles.mainScrollViewContentContainer}
       >
         {isLoading ? (
           <TextOff label="Loading..." />
@@ -52,6 +50,6 @@ export default function LogsPage() {
           ))
         )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }

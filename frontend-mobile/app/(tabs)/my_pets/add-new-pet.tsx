@@ -3,7 +3,7 @@ import { TextInputX } from "@/components/TextInput";
 import { colors, styles, stylesBase } from "@/constants/styles";
 import { ActivityLevel, CreatePetDto, Species } from "@/lib/auth/definitions";
 import { useState } from "react";
-import { Alert, Image, Pressable, Text, View } from "react-native";
+import { Alert, Image, Pressable, ScrollView, Text, View } from "react-native";
 import { RadioButton } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Slider from "@react-native-community/slider";
@@ -15,6 +15,7 @@ import axios from "axios";
 import { baseUrl } from "@/constants/constants";
 import { useAuth } from "@/lib/auth/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { getStatusBarHeight } from "@/lib/utils";
 
 const OPTIONS = [
   { label: "Kg", value: "kg" },
@@ -96,17 +97,16 @@ export default function AddNewPetPage() {
     mutation.mutate(newPet);
   }
 
+  const statusBarHeight = getStatusBarHeight();
+
   return (
-    <SafeAreaView style={[styles.layout, { gap: 25, height: "100%" }]}>
+    <View style={[styles.layout, { gap: 25, paddingTop: statusBarHeight }]}>
       <Header title="Add Pet" subtitle="Add new pet" iconBack />
 
       {/* Body */}
-      <View
-        style={{
-          width: "100%",
-          justifyContent: "space-between",
-          height: "93%", //TILY
-        }}
+      <ScrollView
+        style={styles.mainScrollViewContainer}
+        contentContainerStyle={styles.mainScrollViewContentContainer}
       >
         {/* Form */}
         <View style={{ gap: 25, width: "100%" }}>
@@ -247,28 +247,30 @@ export default function AddNewPetPage() {
             setValue={setActivityLevelValue}
           />
         </View>
-        {/* Action buttons */}
-        <View
-          style={{
-            flexDirection: "row",
-            gap: 16,
-            width: "100%",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
-          <RoundedButton
-            label="Cancelar"
-            variant="outline"
-            onPress={() => router.back()}
-          />
-          <RoundedButton
-            label="Aceptar"
-            variant="default"
-            onPress={handleSubmit}
-          />
-        </View>
+      </ScrollView>
+
+      {/* Action buttons */}
+      <View
+        style={{
+          flexDirection: "row",
+          gap: 16,
+          width: "100%",
+          justifyContent: "flex-end",
+          alignItems: "center",
+          padding: 10,
+        }}
+      >
+        <RoundedButton
+          label="Cancelar"
+          variant="outline"
+          onPress={() => router.back()}
+        />
+        <RoundedButton
+          label="Aceptar"
+          variant="default"
+          onPress={handleSubmit}
+        />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }

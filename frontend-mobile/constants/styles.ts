@@ -19,6 +19,7 @@ export const stylesBase = StyleSheet.create({
     fontFamily: "Nunito_400Regular",
     fontSize: 16,
     fontWeight: "400",
+    color: colors.textPrimary,
   },
   buttonText: {
     //
@@ -29,7 +30,7 @@ export const stylesBase = StyleSheet.create({
   caption: {
     //
     fontFamily: "Nunito_400Regular",
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: "400",
   },
   h1: {
@@ -60,14 +61,24 @@ export const stylesBase = StyleSheet.create({
 
 export const styles = StyleSheet.create({
   layout: {
+    position: "relative",
     backgroundColor: colors.background,
     flex: 1,
-    paddingHorizontal: 20,
     paddingTop: 10,
     gap: 10,
     // marginHorizontal: "auto",
     alignItems: "center",
   },
+  mainScrollViewContainer: {
+    width: "100%",
+    paddingHorizontal: 15,
+  },
+  mainScrollViewContentContainer: {
+    gap: 10,
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+
   tabBarLabelStyle: {
     color: colors.primary,
     padding: 5,

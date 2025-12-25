@@ -14,6 +14,14 @@ export default function Layout() {
           fontFamily: "Nunito_700Bold",
           fontSize: 12,
           fontWeight: "700",
+
+          //Sombra
+          elevation: 8, // Android sombra
+          shadowColor: "#ff0000", // iOS sombra
+          shadowOffset: { width: 0, height: -3 },
+          shadowOpacity: 0.1,
+          shadowRadius: 6,
+          borderTopWidth: 0, // opcional para quitar el borde superior por defecto
         },
         tabBarIconStyle: {
           padding: 3,

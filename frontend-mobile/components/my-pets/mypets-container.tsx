@@ -1,12 +1,20 @@
 import { baseUrl } from "@/constants/constants";
-import { colors, stylesBase } from "@/constants/styles";
+import { colors, styles, stylesBase } from "@/constants/styles";
 import { useAuth } from "@/lib/auth/auth";
 import { PetHome } from "@/lib/auth/definitions";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Alert, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { Button, Divider, Menu } from "react-native-paper";
 
 type MyPetsContainerProps = {
@@ -15,15 +23,19 @@ type MyPetsContainerProps = {
 
 const MyPetsContainer = ({ pets }: MyPetsContainerProps) => {
   return (
-    <View
-      style={{ justifyContent: "flex-start", alignItems: "flex-start", gap: 9 }}
+    <ScrollView
+      style={[styles.mainScrollViewContainer]}
+      contentContainerStyle={[
+        styles.mainScrollViewContentContainer,
+        { gap: 9 },
+      ]}
     >
       {!pets || pets.length === 0 ? (
         <Text>No pets yet...</Text>
       ) : (
         pets.map((pet) => <PetSection key={pet.id} data={pet} />)
       )}
-    </View>
+    </ScrollView>
   );
 };
 

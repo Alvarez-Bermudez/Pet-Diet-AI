@@ -12,6 +12,7 @@ const Header = ({ title, subtitle, iconBack = false }: HeaderProps) => {
         flexDirection: "row",
         justifyContent: "flex-start",
         alignItems: "center",
+        paddingHorizontal: 20,
         gap: 8,
         width: "100%",
       }}
