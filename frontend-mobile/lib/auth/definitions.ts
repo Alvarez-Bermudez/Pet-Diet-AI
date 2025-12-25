@@ -29,3 +29,9 @@ export type PetByIdEntity = {
   menu?: string | null;
   menuAccepted?: boolean | null;
 };
+
+export type UserEntity = {
+  name: string;
+  email: string;
+  phone?: string | null;
+};
