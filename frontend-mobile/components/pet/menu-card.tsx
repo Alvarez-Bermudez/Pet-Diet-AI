@@ -1,4 +1,4 @@
-import { Image, Pressable, Text, View } from "react-native";
+import { Animated, Image, Pressable, Text, View } from "react-native";
 import TextOff from "../text-off";
 import { colors, stylesBase } from "@/constants/styles";
 import { Menu } from "@/lib/auth/definitions";
@@ -14,6 +14,7 @@ import { baseUrl } from "@/constants/constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth/auth";
 import { useLocalSearchParams } from "expo-router";
+import { useEffect, useRef, useState } from "react";
 
 type MenuCardType = {
   menu: Menu | undefined;
@@ -26,6 +27,33 @@ const MenuCard = ({ menu, menuAccepted }: MenuCardType) => {
   const { token } = useAuth();
 
   const queryClient = useQueryClient();
+
+  const [shouldBlink, setShouldBlink] = useState(false);
+  const anim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (shouldBlink) {
+      Animated.sequence([
+        Animated.timing(anim, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: false,
+        }),
+        Animated.timing(anim, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: false,
+        }),
+      ]).start(() => {
+        setShouldBlink(false); // Reset trigger after animation
+      });
+    }
+  }, [shouldBlink]);
+
+  const backgroundColor = anim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [colors.surface, colors.primary],
+  });
 
   const mutationMenuGenerate = useMutation({
     mutationFn: () =>
@@ -48,6 +76,7 @@ const MenuCard = ({ menu, menuAccepted }: MenuCardType) => {
       }
     },
     onSuccess: (data) => {
+      setShouldBlink(true);
       queryClient.invalidateQueries({ queryKey: ["pet", id] });
     },
   });
@@ -78,17 +107,20 @@ const MenuCard = ({ menu, menuAccepted }: MenuCardType) => {
   });
 
   return (
-    <View
-      style={{
-        width: "100%",
-        backgroundColor: colors.surface,
-        borderRadius: 10,
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 8,
-        paddingHorizontal: 12,
-        paddingVertical: 10,
-      }}
+    <Animated.View
+      style={[
+        {
+          width: "100%",
+
+          borderRadius: 10,
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 8,
+          paddingHorizontal: 12,
+          paddingVertical: 10,
+        },
+        { backgroundColor },
+      ]}
     >
       <View
         style={{
@@ -157,7 +189,7 @@ const MenuCard = ({ menu, menuAccepted }: MenuCardType) => {
       ) : (
         <TextOff label="No menu yet..." />
       )}
-    </View>
+    </Animated.View>
   );
 };
 

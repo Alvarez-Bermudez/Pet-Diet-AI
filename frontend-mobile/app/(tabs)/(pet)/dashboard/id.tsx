@@ -87,6 +87,7 @@ export default function Dashboard() {
       }
 
       const rawMenu = pet.menu;
+      console.log(rawMenu, rawMenu);
       if (rawMenu) {
       }
 
@@ -94,7 +95,9 @@ export default function Dashboard() {
         const cleanMenu = rawMenu
           .replace(/json\n?|\n?/g, "")
           .replaceAll("```", "")
-          .replaceAll("**", "");
+          .replaceAll("**", "")
+          .replaceAll("* ", "- ")
+          .replaceAll("*", "");
         const menu = JSON.parse(cleanMenu);
 
         // console.log(`string menu: ${JSON.stringify(menu, null, 2)}`);
