@@ -128,7 +128,7 @@ export class PetsService {
         });
       }
     } catch (e) {
-      throw new InternalServerErrorException('Failed to update pet');
+      throw new InternalServerErrorException(`Failed to update pet: ${e}`);
     }
 
     return {

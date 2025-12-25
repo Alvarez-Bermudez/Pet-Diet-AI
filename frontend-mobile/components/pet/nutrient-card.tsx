@@ -15,6 +15,7 @@ const NutrientCard = ({
   return (
     <View
       style={{
+        flex: 1,
         paddingHorizontal: 12,
         paddingVertical: 16,
         justifyContent: "center",

@@ -59,6 +59,8 @@ export const stylesBase = StyleSheet.create({
   },
 });
 
+export const pressButtonOpacity = 0.3;
+
 export const styles = StyleSheet.create({
   layout: {
     position: "relative",
@@ -77,8 +79,8 @@ export const styles = StyleSheet.create({
     gap: 10,
     alignItems: "center",
     justifyContent: "space-between",
+    paddingBottom: 10,
   },
-
   tabBarLabelStyle: {
     color: colors.primary,
     padding: 5,

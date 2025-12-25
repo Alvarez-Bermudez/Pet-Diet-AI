@@ -59,10 +59,24 @@ export class DietsService {
 
   async acceptMenu(userId: string, petId: string) {
     try {
+      const pet = await this.prisma.pet.findUnique({
+        where: { id: petId },
+        select: { menu: true },
+      });
+
       await this.prisma.pet.update({
         where: { id: petId, userId },
         data: { menuAccepted: true },
       });
+
+      if (pet)
+        if (pet.menu)
+          await this.prisma.menuHistory.create({
+            data: {
+              petId,
+              menu: pet.menu,
+            },
+          });
 
       return { menuAccepted: true };
     } catch (e) {
@@ -103,6 +117,7 @@ export class DietsService {
         where: { id: petId, userId },
         data: {
           menu,
+          menuAccepted: false,
         },
       });
     } catch (e) {

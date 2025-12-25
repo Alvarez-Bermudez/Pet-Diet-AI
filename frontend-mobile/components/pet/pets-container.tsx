@@ -40,11 +40,11 @@ const PetsContainer = ({ pets, isLoading }: PetsContainerProps) => {
         <View
           style={{
             backgroundColor: colors.surface,
-            padding: 12,
+            // padding: 12,
             borderRadius: 10,
             alignItems: "flex-start",
             justifyContent: "flex-start",
-            gap: 8,
+            // gap: 8,
             width: "100%",
           }}
         >
@@ -54,6 +54,8 @@ const PetsContainer = ({ pets, isLoading }: PetsContainerProps) => {
               fontSize: 12,
               color: colors.textSecondary,
               width: "100%",
+              paddingTop: 12,
+              paddingHorizontal: 12,
             }}
           >
             My pets
@@ -108,10 +110,11 @@ const PetAction = ({ title, onPress }: PetActionProps) => {
       <View
         style={{
           flexDirection: "row",
-
+          paddingHorizontal: 12,
+          paddingVertical: 5,
           justifyContent: "space-between",
           width: "100%",
-          backgroundColor: colors.surface,
+          backgroundColor: pressed ? colors.primary : colors.surface,
           borderRadius: 10,
           alignItems: "center",
           opacity: pressed ? 0.3 : 1,

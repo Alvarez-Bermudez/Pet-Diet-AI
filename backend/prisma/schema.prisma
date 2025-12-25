@@ -55,7 +55,7 @@ model MenuHistory {
   id    String   @id @default(uuid())
   petId String
   pet   Pet      @relation(fields: [petId], references: [id])
-  date  DateTime
+  date  DateTime @default(now())
   menu  String
 }
 

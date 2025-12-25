@@ -7,15 +7,14 @@ const brunoId = "61ce5cef-5156-4058-8009-b434afaddcdd";
 
 async function main() {
   try {
-    const response = await axios.get(
-      `${baseUrl}/pets/${brunoId}`,
-
+    const response = await axios.post(
+      `${baseUrl}/pets/${brunoId}/diets/menu`,
+      {},
       {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       }
     );
+
     console.log(JSON.stringify(response.data, null, 2));
   } catch (e) {
     console.error("Error:", e.response?.data || e.message);

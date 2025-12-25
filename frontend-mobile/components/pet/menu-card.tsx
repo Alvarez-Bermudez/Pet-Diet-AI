@@ -9,8 +9,74 @@ import {
   RefreshCcwDot,
   RefreshCw,
 } from "lucide-react-native";
+import axios from "axios";
+import { baseUrl } from "@/constants/constants";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/lib/auth/auth";
+import { useLocalSearchParams } from "expo-router";
 
-const MenuCard = ({ menu }: { menu: Menu | undefined }) => {
+type MenuCardType = {
+  menu: Menu | undefined;
+  menuAccepted: boolean | undefined;
+};
+
+const MenuCard = ({ menu, menuAccepted }: MenuCardType) => {
+  const { id } = useLocalSearchParams();
+
+  const { token } = useAuth();
+
+  const queryClient = useQueryClient();
+
+  const mutationMenuGenerate = useMutation({
+    mutationFn: () =>
+      axios.post(
+        `${baseUrl}/pets/${id}/diets/menu/generate`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      ),
+    onError: (error) => {
+      // Alert.alert("Error", "Something went wrong. Try it again later");
+      if (axios.isAxiosError(error)) {
+        console.error("API Error:", error.response?.data);
+        alert(
+          `Error: ${error.response?.data?.message || "Something went wrong"}`
+        );
+      } else {
+        console.error("Unexpected Error:", error);
+      }
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["pet", id] });
+    },
+  });
+
+  const mutationMenuAccept = useMutation({
+    mutationFn: () =>
+      axios.post(
+        `${baseUrl}/pets/${id}/diets/menu/accept`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      ),
+    onError: (error) => {
+      // Alert.alert("Error", "Something went wrong. Try it again later");
+      if (axios.isAxiosError(error)) {
+        console.error("API Error:", error.response?.data);
+        alert(
+          `Error: ${error.response?.data?.message || "Something went wrong"}`
+        );
+      } else {
+        console.error("Unexpected Error:", error);
+      }
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["pet", id] });
+    },
+  });
+
   return (
     <View
       style={{
@@ -48,12 +114,25 @@ const MenuCard = ({ menu }: { menu: Menu | undefined }) => {
             gap: 4,
           }}
         >
-          <Pressable style={{ paddingHorizontal: 6, paddingVertical: 2 }}>
+          <Pressable
+            style={{ paddingHorizontal: 6, paddingVertical: 2 }}
+            onPress={() => {
+              mutationMenuGenerate.mutate();
+            }}
+          >
             {/* <Image source={RebootIcon} /> */}
             <RefreshCcw size={20} color={colors.accent} />
           </Pressable>
-          <Pressable style={{ paddingHorizontal: 6, paddingVertical: 2 }}>
-            <Check size={20} color={colors.primary} />
+          <Pressable
+            style={{ paddingHorizontal: 6, paddingVertical: 2 }}
+            onPress={() => {
+              mutationMenuAccept.mutate();
+            }}
+          >
+            <Check
+              size={20}
+              color={!menuAccepted ? colors.primary : colors.success}
+            />
           </Pressable>
         </View>
       </View>

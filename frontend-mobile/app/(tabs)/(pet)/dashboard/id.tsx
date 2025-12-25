@@ -6,7 +6,7 @@ import {
   Menu,
   PetByIdEntity,
 } from "@/lib/auth/definitions";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import {
@@ -29,15 +29,22 @@ import MenuCard from "@/components/pet/menu-card";
 import NutrientCard from "@/components/pet/nutrient-card";
 import Header from "@/components/pet/header";
 import { getStatusBarHeight } from "@/lib/utils";
+import SectionAction from "@/components/pet/section-action";
+import RecommendedCaloriesCard from "@/components/pet/recommended-calories-card";
 
 export default function Dashboard() {
   const { id } = useLocalSearchParams();
   const { token } = useAuth();
+  const router = useRouter();
+
+  const queryClient = useQueryClient();
+
   const [recommendedCalories, setRecommendedCalories] = useState<number>(); //kcal/day
   const [protein, setProtein] = useState<number>(); //percentage..
   const [fat, setFat] = useState<number>();
   const [carbohydrates, setCarbohydrates] = useState<number>();
   const [menu, setMenu] = useState<Menu>();
+  const [menuAccepted, setMenuAccepted] = useState<boolean>();
 
   const {
     data: pet,
@@ -57,6 +64,8 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (pet) {
+      if (pet.menuAccepted) setMenuAccepted(pet.menuAccepted);
+
       const rawDailyNutritionalPlan = pet.dailyNutritionalPlan;
       if (rawDailyNutritionalPlan) {
         const cleanDailyNutritionalPlan = rawDailyNutritionalPlan
@@ -78,6 +87,9 @@ export default function Dashboard() {
       }
 
       const rawMenu = pet.menu;
+      if (rawMenu) {
+      }
+
       if (rawMenu) {
         const cleanMenu = rawMenu
           .replace(/json\n?|\n?/g, "")
@@ -107,46 +119,11 @@ export default function Dashboard() {
               contentContainerStyle={styles.mainScrollViewContentContainer}
             >
               <Header name={pet?.name ?? ""} />
-              <View className="flex-row w-full flex-wrap">
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                  }}
-                >
-                  <View
-                    style={{
-                      paddingHorizontal: 30,
-                      paddingVertical: 20,
-                      justifyContent: "center",
-                      alignItems: "center",
-                      gap: 6,
-                      backgroundColor: colors.surface,
-                      borderRadius: 12,
-                    }}
-                  >
-                    <Text
-                      style={[
-                        stylesBase.buttonText,
-                        { fontSize: 19, color: colors.primary },
-                      ]}
-                    >
-                      {recommendedCalories} kcal/day
-                    </Text>
-                    <Text
-                      style={[
-                        stylesBase.caption,
-                        { fontSize: 15, color: colors.textPrimary },
-                      ]}
-                    >
-                      Recommended calories
-                    </Text>
-                  </View>
-                </View>
-              </View>
-              {/* Nutrients container */}
-              <View className="flex-row w-full justify-end gap-4 flex-wrap">
+
+              <View className="flex-row w-full items-center justify-end gap-4 flex-wrap">
+                <RecommendedCaloriesCard
+                  recommendedCalories={recommendedCalories}
+                />
                 {recommendedCalories && protein && (
                   <NutrientCard
                     label="Protein"
@@ -154,6 +131,9 @@ export default function Dashboard() {
                     recommendedCaloriesValue={recommendedCalories}
                   />
                 )}
+              </View>
+              {/* Nutrients container */}
+              <View className="flex-row w-full items-center justify-end gap-4 flex-wrap">
                 {recommendedCalories && fat && (
                   <NutrientCard
                     label="Fat"
@@ -169,8 +149,19 @@ export default function Dashboard() {
                   />
                 )}
               </View>
-              <MenuCard menu={menu} />
-              <TrackingActionsContainer />
+              <MenuCard menu={menu} menuAccepted={menuAccepted} />
+              <TrackingActionsContainer pet={pet} />
+              <SectionAction
+                title="Update weight & pet data"
+                onPress={() => {
+                  if (pet) {
+                    router.push({
+                      pathname: `/(tabs)/my_pets/[id]`,
+                      params: { id: pet.id },
+                    });
+                  }
+                }}
+              />
             </ScrollView>
           </>
         )}
