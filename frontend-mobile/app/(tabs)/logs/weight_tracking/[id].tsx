@@ -86,23 +86,25 @@ const ReviewCard = ({
   const [color, setColor] = useState<string>();
 
   useEffect(() => {
-    if (weightTracks?.length && weightTracks.length > 2) {
-      const weights = weightTracks;
-      const color =
-        weights[0].weight - weights[1].weight > 0
-          ? colors.success
-          : colors.error;
+    if (weightTracks) {
+      if (weightTracks.length > 2) {
+        const weights = weightTracks;
+        const color =
+          weights[0].weight - weights[1].weight > 0
+            ? colors.success
+            : colors.error;
 
-      const weightKg = Math.abs(weights[0].weight - weights[1].weight);
+        const weightKg = Math.abs(weights[0].weight - weights[1].weight);
 
-      const percentage = Math.abs((weightKg / weights[1].weight) * 100);
+        const percentage = Math.abs((weightKg / weights[1].weight) * 100);
 
-      const weightLb = weightKg * 2.2;
+        const weightLb = weightKg * 2.2;
 
-      setWeightKg(weightKg);
-      setWeightLb(weightLb);
-      setPercentage(percentage);
-      setColor(color);
+        setWeightKg(weightKg);
+        setWeightLb(weightLb);
+        setPercentage(percentage);
+        setColor(color);
+      }
     }
   }, [weightTracks]);
 
@@ -114,46 +116,50 @@ const ReviewCard = ({
     );
 
   return (
-    weightTracks && (
-      <View
-        style={{
-          paddingHorizontal: 16,
-          paddingVertical: 6,
-          backgroundColor: colors.surface,
-          justifyContent: "space-between",
-          flexDirection: "row",
-          alignItems: "center",
-          borderRadius: 12,
-          width: "100%",
-        }}
-      >
-        <View style={{ flexDirection: "row", gap: 4, alignItems: "center" }}>
-          {TrendingIcon}
-          <Text style={[stylesBase.caption, { color: color }]}>
-            {weightKg?.toFixed(2)} Kg
-          </Text>
-        </View>
+    <>
+      {weightTracks && weightTracks.length > 2 && (
+        <View
+          style={{
+            paddingHorizontal: 16,
+            paddingVertical: 6,
+            backgroundColor: colors.surface,
+            justifyContent: "space-between",
+            flexDirection: "row",
+            alignItems: "center",
+            borderRadius: 12,
+            width: "100%",
+          }}
+        >
+          <View style={{ flexDirection: "row", gap: 4, alignItems: "center" }}>
+            {TrendingIcon}
+            <Text style={[stylesBase.caption, { color: color }]}>
+              {weightKg?.toFixed(2)} Kg
+            </Text>
+          </View>
 
-        <View style={{ justifyContent: "center" }}>
-          <Text style={[stylesBase.buttonText, { fontSize: 18 }]}>
-            {weightTracks[0].weight} Kg
-          </Text>
+          <View style={{ justifyContent: "center" }}>
+            <Text style={[stylesBase.buttonText, { fontSize: 18 }]}>
+              {weightTracks[0].weight} Kg
+            </Text>
+
+            <View
+              style={{ flexDirection: "row", gap: 4, alignItems: "center" }}
+            >
+              {TrendingIcon}
+              <Text style={[stylesBase.caption, { color: color }]}>
+                {percentage?.toFixed(2)}%
+              </Text>
+            </View>
+          </View>
 
           <View style={{ flexDirection: "row", gap: 4, alignItems: "center" }}>
             {TrendingIcon}
             <Text style={[stylesBase.caption, { color: color }]}>
-              {percentage?.toFixed(2)}%
+              {weightLb?.toFixed(2)} Lb
             </Text>
           </View>
         </View>
-
-        <View style={{ flexDirection: "row", gap: 4, alignItems: "center" }}>
-          {TrendingIcon}
-          <Text style={[stylesBase.caption, { color: color }]}>
-            {weightLb?.toFixed(2)} Lb
-          </Text>
-        </View>
-      </View>
-    )
+      )}
+    </>
   );
 };

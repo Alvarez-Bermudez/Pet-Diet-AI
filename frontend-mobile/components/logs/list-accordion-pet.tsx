@@ -60,6 +60,12 @@ const ListAccordionPet = ({ title, species, petId }: ListAccordionPetProps) => {
         right={(props) => (
           <Image source={require("@/assets/images/right-arrow-primary.png")} />
         )}
+        onPress={() =>
+          router.push({
+            pathname: "/(tabs)/logs/daily_meal_history/[id]",
+            params: { id: petId },
+          })
+        }
         style={{
           backgroundColor: colors.surface,
           borderBottomLeftRadius: 10,
