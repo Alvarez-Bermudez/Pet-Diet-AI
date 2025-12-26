@@ -14,7 +14,7 @@ const TracksCard = ({
       <Text style={[stylesBase.caption, { color: colors.textSecondary }]}>
         Tracking
       </Text>
-      {tracks?.reverse().map((track) => (
+      {tracks?.map((track) => (
         <View
           key={track.id}
           style={{
