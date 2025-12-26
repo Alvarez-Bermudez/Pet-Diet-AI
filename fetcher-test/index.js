@@ -7,9 +7,9 @@ const brunoId = "61ce5cef-5156-4058-8009-b434afaddcdd";
 
 async function main() {
   try {
-    const response = await axios.post(
-      `${baseUrl}/pets/${brunoId}/diets/menu`,
-      {},
+    const response = await axios.patch(
+      `${baseUrl}/users/me`,
+      { name: "Jhony", phone: "+1 523 123 1234" },
       {
         headers: { Authorization: `Bearer ${token}` },
       }

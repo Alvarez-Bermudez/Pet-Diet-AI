@@ -65,7 +65,7 @@ const DailyMealHistoryScreen = () => {
           { gap: 8 },
         ]}
       >
-        {menuHistoryData ? (
+        {menuHistoryData && menuHistoryData.length !== 0 ? (
           <>
             {menuHistoryData.map((history) => (
               <ItemHistory key={history.id} history={history} petId={pet?.id} />

@@ -10,7 +10,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import profileIcon from "../../assets/images/Customer.png";
-import lockIcon from "../../assets/images/Customer.png";
+import lockIcon from "../../assets/images/Lock.png";
 import emailIcon from "../../assets/images/Email.png";
 import phoneIcon from "../../assets/images/Phone-number.png";
 
@@ -20,6 +20,20 @@ export default function SignUpPage() {
   const [phoneNumber, setPhoneNumber] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [confirmPasssword, setConfirmPassword] = useState<string>();
+
+  function handleSubmit() {
+    if (!name || !email || !password || !confirmPasssword) {
+      alert("Please complete all fields");
+      return;
+    }
+
+    if (confirmPasssword !== password) {
+      alert("Confirm password must be equal to password");
+      return;
+    }
+
+    //to be continued
+  }
 
   return (
     <KeyboardAvoidingView
@@ -80,16 +94,16 @@ export default function SignUpPage() {
               secureTextEntry
             />
             <TextInputWithIcon
-              value={phoneNumber}
-              setValue={setPhoneNumber}
-              iconPath={phoneIcon}
+              value={confirmPasssword}
+              setValue={setConfirmPassword}
+              iconPath={lockIcon}
               placeholder="Confirm password..."
               secureTextEntry
             />
           </View>
         </View>
 
-        <Pressable className="w-full" onPress={() => {}}>
+        <Pressable className="w-full" onPress={handleSubmit}>
           <View className="bg-primary py-3 px-[18px] justify-center flex-row rounded-[13px]">
             <Text
               className="text-buttonText text-surface"

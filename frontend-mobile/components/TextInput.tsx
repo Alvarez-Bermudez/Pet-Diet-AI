@@ -1,6 +1,6 @@
 import { colors } from "@/constants/styles";
 import { Dispatch, SetStateAction } from "react";
-import { Image, TextInput, View } from "react-native";
+import { Image, ImageSourcePropType, TextInput, View } from "react-native";
 
 const TextInputWithIcon = ({
   iconPath,
@@ -9,7 +9,7 @@ const TextInputWithIcon = ({
   placeholder,
   secureTextEntry = false,
 }: {
-  iconPath: string;
+  iconPath: ImageSourcePropType;
   value: any;
   setValue: Dispatch<SetStateAction<any>>;
   placeholder: string;

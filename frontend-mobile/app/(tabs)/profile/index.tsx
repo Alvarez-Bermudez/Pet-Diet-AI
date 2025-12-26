@@ -6,7 +6,7 @@ import { useAuth } from "@/lib/auth/auth";
 import { UserEntity } from "@/lib/auth/definitions";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Image, ScrollView, Text, View } from "react-native";
+import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ProfileIcon from "@/assets/images/profile-text-primary.png";
 import EmailIcon from "@/assets/images/Email-text-primary.png";
@@ -14,6 +14,7 @@ import PhoneNumberIcon from "@/assets/images/phone-text-primary.png";
 import RightArrowIcon from "@/assets/images/right-arrow-primary.png";
 import RightArrowDestructiveIcon from "@/assets/images/right-arrow-destructive.png";
 import { getStatusBarHeight } from "@/lib/utils";
+import { router } from "expo-router";
 
 export default function Profile() {
   const { token } = useAuth();
@@ -61,9 +62,13 @@ export default function Profile() {
             <Text style={[stylesBase.h3, { color: colors.textPrimary }]}>
               Profile info
             </Text>
-            <Text style={[stylesBase.caption, { color: colors.textPrimary }]}>
-              Edit
-            </Text>
+            <Pressable
+              onPress={() => router.push({ pathname: `/(tabs)/profile/edit` })}
+            >
+              <Text style={[stylesBase.caption, { color: colors.textPrimary }]}>
+                Edit
+              </Text>
+            </Pressable>
           </View>
 
           <ProfileInfoItem

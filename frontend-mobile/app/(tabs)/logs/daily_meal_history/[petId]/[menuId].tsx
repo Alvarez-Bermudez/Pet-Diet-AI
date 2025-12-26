@@ -58,7 +58,6 @@ export default function HistoryMenuById() {
 
   useEffect(() => {
     if (_dataMenu) {
-      console.log("xx", JSON.stringify(_dataMenu, null, 2));
       setDataMenu(_dataMenu);
       const rawMenu = _dataMenu.menu;
 

@@ -103,6 +103,7 @@ const MenuCard = ({ menu, menuAccepted }: MenuCardType) => {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["pet", id] });
+      queryClient.invalidateQueries({ queryKey: ["dietsMenuHistory", id] });
     },
   });
 
@@ -155,17 +156,19 @@ const MenuCard = ({ menu, menuAccepted }: MenuCardType) => {
             {/* <Image source={RebootIcon} /> */}
             <RefreshCcw size={20} color={colors.accent} />
           </Pressable>
-          <Pressable
-            style={{ paddingHorizontal: 6, paddingVertical: 2 }}
-            onPress={() => {
-              mutationMenuAccept.mutate();
-            }}
-          >
-            <Check
-              size={20}
-              color={!menuAccepted ? colors.primary : colors.success}
-            />
-          </Pressable>
+          {menu && (
+            <Pressable
+              style={{ paddingHorizontal: 6, paddingVertical: 2 }}
+              onPress={() => {
+                mutationMenuAccept.mutate();
+              }}
+            >
+              <Check
+                size={20}
+                color={!menuAccepted ? colors.primary : colors.success}
+              />
+            </Pressable>
+          )}
         </View>
       </View>
 

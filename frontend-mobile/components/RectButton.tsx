@@ -23,7 +23,12 @@ export const RectButton = ({
   }
 
   return (
-    <Pressable className="w-full " onTouchStart={hover} onTouchEnd={blur}>
+    <Pressable
+      className="w-full "
+      onTouchStart={hover}
+      onTouchEnd={blur}
+      onPress={onPress}
+    >
       <View
         style={{
           backgroundColor: colors.primary,

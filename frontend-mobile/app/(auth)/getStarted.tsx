@@ -8,10 +8,13 @@ export default function GetStartedPage() {
   return (
     <SafeAreaView className="p-5 justify-between items-center flex-1 bg-background">
       <View className="gap-2.5 items-start">
-        <Image
-          source={require("../../assets/images/get-started-logo.png")}
-          style={{ width: "100%", borderRadius: 15 }}
-        />
+        <View style={{ width: "100%" }}>
+          <Image
+            source={require("@/assets/images/get-started-logo.png")}
+            style={{ borderRadius: 15 }}
+            resizeMode="cover"
+          />
+        </View>
         <Text
           className=" text-bodyBase text-textPrimary text-center "
           style={{ fontFamily: "Nunito_500Medium" }}

@@ -1,4 +1,4 @@
-import { Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserId } from 'src/decorators/user.decorator';
@@ -16,7 +16,7 @@ export class UsersController {
 
   @Patch('me')
   @UseGuards(JwtAuthGuard)
-  updateMe(@UserId() userId: string, updateMeDto: UpdateMeDto) {
+  updateMe(@UserId() userId: string, @Body() updateMeDto: UpdateMeDto) {
     return this.usersService.updateMe(userId, updateMeDto);
   }
 

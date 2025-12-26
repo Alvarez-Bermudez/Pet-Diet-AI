@@ -47,7 +47,11 @@ export default function PetPage() {
           source={require("@/assets/images/logo-home.png")}
           style={{ width: "100%", borderRadius: 15 }}
         />
-        <RectButton onPress={() => {}}>
+        <RectButton
+          onPress={() => {
+            router.push("/(tabs)/my_pets/add-new-pet");
+          }}
+        >
           <Text style={styles.textButton}>Add new pet</Text>
           <Image source={require("@/assets/images/plus-surface.png")} />
         </RectButton>

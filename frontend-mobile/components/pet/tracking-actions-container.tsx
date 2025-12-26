@@ -48,7 +48,17 @@ const TrackingActionsContainer = ({
           gap: 4,
         }}
       >
-        <ActionContainer title="Daily meal history" onPress={() => {}} />
+        <ActionContainer
+          title="Daily meal history"
+          onPress={() => {
+            if (pet) {
+              router.push({
+                pathname: "/(tabs)/logs/daily_meal_history/[id]",
+                params: { id: pet.id },
+              });
+            }
+          }}
+        />
         <ActionContainer
           title="Weight tracking"
           onPress={() => {
