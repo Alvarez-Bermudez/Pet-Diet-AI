@@ -13,11 +13,15 @@ export class WeightsService {
 
   async findAll(userId: string, petId: string) {
     const weights = await this.prisma.weightTrack.findMany({
-      where: { id: petId },
+      where: { petId },
+      select: { id: true, petId: true, weight: true, date: true },
     });
 
-    return plainToInstance(WeightEntity, weights, {
-      excludeExtraneousValues: true,
-    });
+    // const _weights = weights.map((_weight => { return {..._weight, weight: Number(_weight.weight)}} ))
+
+    // return plainToInstance(WeightEntity, weights, {
+    //   excludeExtraneousValues: true,
+    // });
+    return weights.map((weight) => new WeightEntity(weight));
   }
 }

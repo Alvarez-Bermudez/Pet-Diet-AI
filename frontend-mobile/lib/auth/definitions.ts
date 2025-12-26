@@ -47,3 +47,10 @@ export type Menu = {
   title: string;
   meals: string[];
 };
+
+export type WeightTrackEntity = {
+  id: string;
+  petId: string;
+  weight: number;
+  date: string;
+};

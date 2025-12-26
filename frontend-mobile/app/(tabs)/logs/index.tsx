@@ -44,6 +44,7 @@ export default function LogsPage() {
           data.map((pet) => (
             <ListAccordionPet
               key={pet.id}
+              petId={pet.id}
               title={pet.name}
               species={pet.species}
             />

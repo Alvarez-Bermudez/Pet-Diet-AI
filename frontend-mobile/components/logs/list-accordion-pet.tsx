@@ -1,11 +1,14 @@
 import { colors, stylesBase } from "@/constants/styles";
 import { Species } from "@/lib/auth/definitions";
+import { useRouter } from "expo-router";
 import { Image } from "react-native";
 import { List } from "react-native-paper";
 
-type ListAccordionPetProps = { title: string; species: Species };
+type ListAccordionPetProps = { title: string; species: Species; petId: string };
 
-const ListAccordionPet = ({ title, species }: ListAccordionPetProps) => {
+const ListAccordionPet = ({ title, species, petId }: ListAccordionPetProps) => {
+  const router = useRouter();
+
   return (
     <List.Accordion
       title={title}
@@ -41,6 +44,12 @@ const ListAccordionPet = ({ title, species }: ListAccordionPetProps) => {
         right={(props) => (
           <Image source={require("@/assets/images/right-arrow-primary.png")} />
         )}
+        onPress={() =>
+          router.push({
+            pathname: "/(tabs)/logs/weight_tracking/[id]",
+            params: { id: petId },
+          })
+        }
       />
       <List.Item
         title="Daily meal history"

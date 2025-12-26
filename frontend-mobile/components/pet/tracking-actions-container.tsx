@@ -1,6 +1,7 @@
 import RightArrowPrimary from "@/assets/images/right-arrow-primary.png";
 import { colors, pressButtonOpacity, stylesBase } from "@/constants/styles";
 import { PetByIdEntity } from "@/lib/auth/definitions";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Image, Pressable, Text, View } from "react-native";
 
@@ -9,6 +10,8 @@ const TrackingActionsContainer = ({
 }: {
   pet: PetByIdEntity | undefined;
 }) => {
+  const router = useRouter();
+
   return (
     <View
       style={{
@@ -46,7 +49,17 @@ const TrackingActionsContainer = ({
         }}
       >
         <ActionContainer title="Daily meal history" onPress={() => {}} />
-        <ActionContainer title="Weight tracking" onPress={() => {}} />
+        <ActionContainer
+          title="Weight tracking"
+          onPress={() => {
+            if (pet) {
+              router.push({
+                pathname: "/(tabs)/logs/weight_tracking/[id]",
+                params: { id: pet.id },
+              });
+            }
+          }}
+        />
       </View>
     </View>
   );

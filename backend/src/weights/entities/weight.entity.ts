@@ -1,4 +1,5 @@
 import { Expose } from 'class-transformer';
+import { Prisma } from 'generated/prisma';
 
 export class WeightEntity {
   @Expose()
@@ -8,7 +9,7 @@ export class WeightEntity {
   petId: string;
 
   @Expose()
-  weight: number;
+  weight: Prisma.Decimal;
 
   @Expose()
   date: Date;

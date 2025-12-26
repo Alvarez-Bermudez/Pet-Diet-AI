@@ -86,6 +86,7 @@ export default function AddNewPetPage() {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["pet", id] });
+      queryClient.invalidateQueries({ queryKey: ["weight", id] });
       router.back();
     },
   });
