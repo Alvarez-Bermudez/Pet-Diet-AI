@@ -35,7 +35,7 @@ model User {
 model Pet {
   id            String        @id @default(uuid())
   userId        String
-  user          User          @relation(fields: [userId], references: [id])
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   name          String
   species       Species
   breed         String
@@ -54,7 +54,7 @@ model Pet {
 model MenuHistory {
   id    String   @id @default(uuid())
   petId String
-  pet   Pet      @relation(fields: [petId], references: [id])
+  pet   Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
   date  DateTime @default(now())
   menu  String
 }
@@ -62,7 +62,7 @@ model MenuHistory {
 model WeightTrack {
   id     String   @id @default(uuid())
   petId  String
-  pet    Pet      @relation(fields: [petId], references: [id])
+  pet    Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
   weight Decimal
   date   DateTime @default(now())
 }

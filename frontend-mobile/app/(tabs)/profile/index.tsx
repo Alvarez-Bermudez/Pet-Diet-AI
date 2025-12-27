@@ -15,9 +15,10 @@ import RightArrowIcon from "@/assets/images/right-arrow-primary.png";
 import RightArrowDestructiveIcon from "@/assets/images/right-arrow-destructive.png";
 import { getStatusBarHeight } from "@/lib/utils";
 import { router } from "expo-router";
+import { LogOut } from "lucide-react-native";
 
 export default function Profile() {
-  const { token } = useAuth();
+  const { token, logout } = useAuth();
 
   const { data, isLoading, error } = useQuery<UserEntity>({
     queryKey: ["profile"],
@@ -113,18 +114,25 @@ export default function Profile() {
             </Text>
           </View>
 
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "100%",
-            }}
+          <Pressable
+            style={{ width: "100%" }}
+            onPress={() => router.push("/(tabs)/profile/clear-data")}
           >
-            <Text style={[stylesBase.bodyBase, { color: colors.textPrimary }]}>
-              Clear data
-            </Text>
-            <Image source={RightArrowIcon} />
-          </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: "100%",
+              }}
+            >
+              <Text
+                style={[stylesBase.bodyBase, { color: colors.textPrimary }]}
+              >
+                Clear data
+              </Text>
+              <Image source={RightArrowIcon} />
+            </View>
+          </Pressable>
 
           <View
             style={{
@@ -139,19 +147,43 @@ export default function Profile() {
             <Image source={RightArrowIcon} />
           </View>
 
+          <Pressable
+            style={{ width: "100%" }}
+            onPress={() => router.push("/(tabs)/profile/delete-account")}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: "100%",
+              }}
+            >
+              <Text style={[stylesBase.bodyBase, { color: colors.error }]}>
+                Delete account
+              </Text>
+              <Image source={RightArrowDestructiveIcon} />
+            </View>
+          </Pressable>
+        </View>
+
+        <Pressable onPress={logout} style={{ width: "100%" }}>
           <View
             style={{
               flexDirection: "row",
-              justifyContent: "space-between",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              paddingHorizontal: 16,
+              paddingVertical: 14,
+              backgroundColor: colors.surface,
+              borderRadius: 10,
               width: "100%",
+              gap: 6,
             }}
           >
-            <Text style={[stylesBase.bodyBase, { color: colors.error }]}>
-              Delete account
-            </Text>
-            <Image source={RightArrowDestructiveIcon} />
+            <LogOut color={colors.textPrimary} />
+            <Text style={[stylesBase.bodyBase]}>Log out</Text>
           </View>
-        </View>
+        </Pressable>
       </ScrollView>
     </View>
   );

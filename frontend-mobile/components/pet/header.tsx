@@ -14,6 +14,7 @@ const Header = ({ name }: { name: string }) => {
         justifyContent: "flex-start",
         alignItems: "center",
         gap: 8,
+        paddingHorizontal: 15,
       }}
     >
       <Pressable onPress={() => router.back()}>

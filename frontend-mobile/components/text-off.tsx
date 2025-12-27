@@ -6,7 +6,7 @@ const TextOff = ({ label }: { label: string }) => {
     <Text
       style={[
         stylesBase.caption,
-        { color: colors.textSecondary, width: "100%" },
+        { color: colors.textSecondary, width: "100%", paddingHorizontal: 8 },
       ]}
     >
       {label}

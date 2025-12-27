@@ -67,9 +67,11 @@ const PetsContainer = ({ pets, isLoading }: PetsContainerProps) => {
                 fontSize: 16,
                 color: colors.textPrimary,
                 width: "100%",
+                paddingHorizontal: 10,
+                paddingVertical: 4,
               }}
             >
-              No pets yet
+              No pets yet...
             </Text>
           ) : (
             pets.map((pet) => (

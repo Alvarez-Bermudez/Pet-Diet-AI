@@ -3,6 +3,7 @@ import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserId } from 'src/decorators/user.decorator';
 import { UpdateMeDto } from './dto/update-me.dto';
+import { DeleteAccountDto } from './dto/delete-account.dto';
 
 @Controller('users')
 export class UsersController {
@@ -24,5 +25,14 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   clearData(@UserId() userId: string) {
     return this.usersService.clearData(userId);
+  }
+
+  @Post('delete-account')
+  @UseGuards(JwtAuthGuard)
+  deleteAccount(
+    @UserId() userId: string,
+    @Body() deleteAccountDto: DeleteAccountDto,
+  ) {
+    return this.usersService.deleteAccount(userId, deleteAccountDto);
   }
 }
