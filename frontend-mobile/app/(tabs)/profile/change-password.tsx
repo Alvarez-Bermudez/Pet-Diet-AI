@@ -12,18 +12,25 @@ import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 
+type ChangePasswordDto = {
+  currentPassword: string;
+  newPassword: string;
+};
+
 export default function ClearDataModal() {
   const { token, logout } = useAuth();
 
   const router = useRouter();
 
-  const [password, setPassword] = useState<string>();
+  const [currentPassword, setCurrentPassword] = useState<string>();
+  const [newPassword, setNewPassword] = useState<string>();
+  const [confirmPassword, setConfirmPassword] = useState<string>();
 
   const statusBarHeight = getStatusBarHeight();
 
   const mutation = useMutation({
-    mutationFn: (dto: { password: string }) =>
-      axios.post(`${baseUrl}/users/delete-account`, dto, {
+    mutationFn: (dto: ChangePasswordDto) =>
+      axios.post(`${baseUrl}/auth/change-password`, dto, {
         headers: { Authorization: `Bearer ${token}` },
       }),
 
@@ -39,7 +46,8 @@ export default function ClearDataModal() {
       }
     },
     onSuccess: (data) => {
-      logout();
+      alert("Password succesfully changed");
+      router.back();
     },
   });
 
@@ -51,21 +59,41 @@ export default function ClearDataModal() {
         style={styles.mainScrollViewContainer}
         contentContainerStyle={[
           styles.mainScrollViewContentContainer,
-          { alignItems: "flex-start" },
+          { alignItems: "flex-start", gap: 25 },
         ]}
       >
-        <Text style={[stylesBase.bodyBase]}>
-          Are you sure you want to delete your account?
-        </Text>
-        <Text style={[stylesBase.bodyBase]}>
-          To confirm, please enter your password:
-        </Text>
-        <TextInputX
-          value={password}
-          setValue={setPassword}
-          placeholder="Enter password..."
-          secureTextEntry
-        />
+        <View style={{ gap: 12 }}>
+          <Text style={[stylesBase.bodyBase]}>
+            Please enter your current password:
+          </Text>
+          <TextInputX
+            placeholder="Enter current password..."
+            value={currentPassword}
+            setValue={setCurrentPassword}
+            secureTextEntry
+          />
+        </View>
+
+        <View style={{ gap: 10 }}>
+          <View style={{ gap: 12 }}>
+            <Text style={[stylesBase.bodyBase]}>New password:</Text>
+            <TextInputX
+              placeholder="Enter new password..."
+              value={newPassword}
+              setValue={setNewPassword}
+              secureTextEntry
+            />
+          </View>
+          <View style={{ gap: 12 }}>
+            <Text style={[stylesBase.bodyBase]}>Confirm password:</Text>
+            <TextInputX
+              placeholder="Confirm password..."
+              value={confirmPassword}
+              setValue={setConfirmPassword}
+              secureTextEntry
+            />
+          </View>
+        </View>
       </ScrollView>
       <View
         style={{
@@ -86,9 +114,18 @@ export default function ClearDataModal() {
           label="Aceptar"
           variant="default"
           onPress={() => {
-            if (password) {
-              mutation.mutate({ password });
+            if (!newPassword || !currentPassword || !confirmPassword) {
+              alert("Please complete all fields");
+              return;
             }
+            if (currentPassword !== confirmPassword) {
+              alert("Confirm password no match new password");
+              return;
+            }
+            mutation.mutate({
+              currentPassword,
+              newPassword,
+            });
           }}
         />
       </View>

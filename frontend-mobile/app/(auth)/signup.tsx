@@ -13,13 +13,45 @@ import profileIcon from "../../assets/images/Customer.png";
 import lockIcon from "../../assets/images/Lock.png";
 import emailIcon from "../../assets/images/Email.png";
 import phoneIcon from "../../assets/images/Phone-number.png";
+import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { baseUrl } from "@/constants/constants";
+import { useAuth } from "@/lib/auth/auth";
+
+type CreateUserDto = {
+  name: string;
+  email: string;
+  password: string;
+  phone?: string;
+};
 
 export default function SignUpPage() {
+  const { login } = useAuth();
   const [name, setName] = useState<string>();
   const [email, setEmail] = useState<string>();
   const [phoneNumber, setPhoneNumber] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [confirmPasssword, setConfirmPassword] = useState<string>();
+
+  const mutation = useMutation({
+    mutationFn: (createUserDto: CreateUserDto) =>
+      axios.post(`${baseUrl}/auth/signup`, createUserDto),
+    onError: (error) => {
+      // Alert.alert("Error", "Something went wrong. Try it again later");
+      if (axios.isAxiosError(error)) {
+        console.error("API Error:", error.response?.data);
+        alert(
+          `Error: ${error.response?.data?.message || "Something went wrong"}`
+        );
+      } else {
+        console.error("Unexpected Error:", error);
+      }
+    },
+    onSuccess: async (data) => {
+      await login(email!, password!);
+      router.replace("/(tabs)/(pet)");
+    },
+  });
 
   function handleSubmit() {
     if (!name || !email || !password || !confirmPasssword) {
@@ -27,12 +59,21 @@ export default function SignUpPage() {
       return;
     }
 
+    if (password.length < 6) {
+      alert("Password too short. Length must be greater than 6 characters");
+    }
+
     if (confirmPasssword !== password) {
       alert("Confirm password must be equal to password");
       return;
     }
 
-    //to be continued
+    mutation.mutate({
+      name,
+      email,
+      password,
+      phone: phoneNumber,
+    });
   }
 
   return (

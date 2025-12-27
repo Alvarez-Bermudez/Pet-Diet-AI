@@ -134,18 +134,25 @@ export default function Profile() {
             </View>
           </Pressable>
 
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "100%",
-            }}
+          <Pressable
+            style={{ width: "100%" }}
+            onPress={() => router.push("/(tabs)/profile/change-password")}
           >
-            <Text style={[stylesBase.bodyBase, { color: colors.textPrimary }]}>
-              Change password
-            </Text>
-            <Image source={RightArrowIcon} />
-          </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: "100%",
+              }}
+            >
+              <Text
+                style={[stylesBase.bodyBase, { color: colors.textPrimary }]}
+              >
+                Change password
+              </Text>
+              <Image source={RightArrowIcon} />
+            </View>
+          </Pressable>
 
           <Pressable
             style={{ width: "100%" }}

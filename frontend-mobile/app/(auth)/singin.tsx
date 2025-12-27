@@ -2,7 +2,6 @@ import { styles } from "@/constants/styles";
 import { useContext, useEffect, useState } from "react";
 import { Alert, Image, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import clsx from "clsx";
 import { Checkbox, TextInput as TextInputPaper } from "react-native-paper";
 import { TextInputWithIcon } from "@/components/TextInput";
 import emailIcon from "../../assets/images/Email.png";
