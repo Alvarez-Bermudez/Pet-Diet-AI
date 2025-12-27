@@ -21,6 +21,7 @@ import { baseUrl } from "@/constants/constants";
 import { useAuth } from "@/lib/auth/auth";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getStatusBarHeight } from "@/lib/utils";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const OPTIONS = [
   { label: "Kg", value: "kg" },
@@ -116,66 +117,75 @@ export default function AddNewPetPage() {
   const statusBarHeight = getStatusBarHeight();
 
   return (
-    <View
-      style={[
-        styles.layout,
-        { gap: 25, paddingTop: statusBarHeight, position: "relative" },
-      ]}
-    >
-      <Header title={name ?? "Pet"} subtitle="Edit pet" iconBack />
-
-      {/* Body */}
-      <ScrollView
-        style={styles.mainScrollViewContainer}
-        contentContainerStyle={styles.mainScrollViewContentContainer}
+    <>
+      <Spinner
+        visible={mutation.isPending}
+        textContent={"Loading..."}
+        textStyle={{ ...stylesBase.buttonText, color: "#fff" }}
+        overlayColor="rgba(0, 0, 0, 0.4)"
+        animation="fade"
+      />
+      <View
+        style={[
+          styles.layout,
+          { gap: 25, paddingTop: statusBarHeight, position: "relative" },
+        ]}
       >
-        {/* Form */}
-        <View style={{ gap: 25, width: "100%" }}>
-          <View
-            style={{
-              width: "100%",
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              gap: 10,
-            }}
-          >
-            <Text style={[stylesBase.small, { color: colors.textPrimary }]}>
-              Current weight (Kg):
-            </Text>
-            <TextInputX
-              value={currentWeight}
-              setValue={setCurrentWeight}
-              placeholder="Enter weight..."
+        <Header title={name ?? "Pet"} subtitle="Edit pet" iconBack />
+
+        {/* Body */}
+        <ScrollView
+          style={styles.mainScrollViewContainer}
+          contentContainerStyle={styles.mainScrollViewContentContainer}
+        >
+          {/* Form */}
+          <View style={{ gap: 25, width: "100%" }}>
+            <View
+              style={{
+                width: "100%",
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+                gap: 10,
+              }}
+            >
+              <Text style={[stylesBase.small, { color: colors.textPrimary }]}>
+                Current weight (Kg):
+              </Text>
+              <TextInputX
+                value={currentWeight}
+                setValue={setCurrentWeight}
+                placeholder="Enter weight..."
+              />
+            </View>
+            <ActivityLevelSlider
+              value={activityLevelValue}
+              setValue={setActivityLevelValue}
             />
           </View>
-          <ActivityLevelSlider
-            value={activityLevelValue}
-            setValue={setActivityLevelValue}
+        </ScrollView>
+        {/* Action buttons */}
+        <View
+          style={{
+            flexDirection: "row",
+            gap: 16,
+            width: "100%",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            padding: 10,
+          }}
+        >
+          <RoundedButton
+            label="Cancelar"
+            variant="outline"
+            onPress={() => router.back()}
+          />
+          <RoundedButton
+            label="Aceptar"
+            variant="default"
+            onPress={handleSubmit}
           />
         </View>
-      </ScrollView>
-      {/* Action buttons */}
-      <View
-        style={{
-          flexDirection: "row",
-          gap: 16,
-          width: "100%",
-          justifyContent: "flex-end",
-          alignItems: "center",
-          padding: 10,
-        }}
-      >
-        <RoundedButton
-          label="Cancelar"
-          variant="outline"
-          onPress={() => router.back()}
-        />
-        <RoundedButton
-          label="Aceptar"
-          variant="default"
-          onPress={handleSubmit}
-        />
       </View>
-    </View>
+    </>
   );
 }

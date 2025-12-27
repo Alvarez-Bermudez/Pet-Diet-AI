@@ -55,9 +55,27 @@ export class PetsService {
         },
       });
 
-      return plainToInstance(PetEntity2, pet, {
-        excludeExtraneousValues: true,
+      const petObject = {
+        species: pet.species,
+        breed: pet.breed,
+        birthDate: pet.birthDate,
+        currentWeightKg: pet.currentWeight,
+        activityLevel: pet.activityLevel,
+      };
+
+      const prompt = getPromptGenerateDailyNutritionalPlan(
+        JSON.stringify(petObject, null, 2),
+      );
+
+      const dailyNutritionalPlan = await this.gemini.generateContent(prompt);
+      // console.log(`Dailt nutr plan:\n${dailyNutritionalPlan}`);
+
+      await this.prisma.pet.update({
+        where: { id: pet.id, userId: pet.userId },
+        data: { dailyNutritionalPlan },
       });
+
+      return new PetEntity2(pet);
       // return pet;
     } catch (e) {
       throw new InternalServerErrorException('Failed to create pet');

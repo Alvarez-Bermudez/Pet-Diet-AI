@@ -15,6 +15,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth/auth";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";
+import Spinner from "react-native-loading-spinner-overlay";
 
 type MenuCardType = {
   menu: Menu | undefined;
@@ -108,91 +109,100 @@ const MenuCard = ({ menu, menuAccepted }: MenuCardType) => {
   });
 
   return (
-    <Animated.View
-      style={[
-        {
-          width: "100%",
+    <>
+      <Spinner
+        visible={mutationMenuGenerate.isPending}
+        textContent={"Loading..."}
+        textStyle={{ ...stylesBase.buttonText, color: "#fff" }}
+        overlayColor="rgba(0, 0, 0, 0.4)"
+        animation="fade"
+      />
+      <Animated.View
+        style={[
+          {
+            width: "100%",
 
-          borderRadius: 10,
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 8,
-          paddingHorizontal: 12,
-          paddingVertical: 10,
-        },
-        { backgroundColor },
-      ]}
-    >
-      <View
-        style={{
-          flexDirection: "row",
-          width: "100%",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
+            borderRadius: 10,
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 8,
+            paddingHorizontal: 12,
+            paddingVertical: 10,
+          },
+          { backgroundColor },
+        ]}
       >
-        <Text
-          style={[
-            stylesBase.caption,
-            { fontSize: 13, color: colors.textSecondary },
-          ]}
-        >
-          Suggested Menu by Diet Type
-        </Text>
         <View
           style={{
             flexDirection: "row",
-            justifyContent: "center",
+            width: "100%",
+            justifyContent: "space-between",
             alignItems: "center",
-            gap: 4,
           }}
         >
-          <Pressable
-            style={{ paddingHorizontal: 6, paddingVertical: 2 }}
-            onPress={() => {
-              mutationMenuGenerate.mutate();
+          <Text
+            style={[
+              stylesBase.caption,
+              { fontSize: 13, color: colors.textSecondary },
+            ]}
+          >
+            Suggested Menu by Diet Type
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 4,
             }}
           >
-            {/* <Image source={RebootIcon} /> */}
-            <RefreshCcw size={20} color={colors.accent} />
-          </Pressable>
-          {menu && (
             <Pressable
               style={{ paddingHorizontal: 6, paddingVertical: 2 }}
               onPress={() => {
-                mutationMenuAccept.mutate();
+                mutationMenuGenerate.mutate();
               }}
             >
-              <Check
-                size={20}
-                color={!menuAccepted ? colors.primary : colors.success}
-              />
+              {/* <Image source={RebootIcon} /> */}
+              <RefreshCcw size={20} color={colors.accent} />
             </Pressable>
-          )}
+            {menu && (
+              <Pressable
+                style={{ paddingHorizontal: 6, paddingVertical: 2 }}
+                onPress={() => {
+                  mutationMenuAccept.mutate();
+                }}
+              >
+                <Check
+                  size={20}
+                  color={!menuAccepted ? colors.primary : colors.success}
+                />
+              </Pressable>
+            )}
+          </View>
         </View>
-      </View>
 
-      {menu ? (
-        <View style={{ gap: 4 }}>
-          <Text style={[stylesBase.bodyBase, { color: colors.textPrimary }]}>
-            {menu.title}:
-          </Text>
-          {menu.meals.map((meal) => (
-            <Text
-              key={meal.slice(0, 20)}
-              style={[
-                stylesBase.bodyBase,
-                { color: colors.textPrimary, textAlign: "justify" },
-              ]}
-            >
-              • {` ${meal}`}
+        {menu ? (
+          <View style={{ gap: 4 }}>
+            <Text style={[stylesBase.bodyBase, { color: colors.textPrimary }]}>
+              {menu.title}:
             </Text>
-          ))}
-        </View>
-      ) : (
-        <TextOff label="No menu yet..." />
-      )}
-    </Animated.View>
+            {menu.meals.map((meal) => (
+              <Text
+                key={meal.slice(0, 20)}
+                style={[
+                  stylesBase.bodyBase,
+                  { color: colors.textPrimary, textAlign: "justify" },
+                ]}
+              >
+                • {` ${meal}`}
+              </Text>
+            ))}
+          </View>
+        ) : (
+          <TextOff label="No menu yet..." />
+        )}
+      </Animated.View>
+    </>
   );
 };
 

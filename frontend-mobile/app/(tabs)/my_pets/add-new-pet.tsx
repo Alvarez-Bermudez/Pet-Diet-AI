@@ -16,6 +16,7 @@ import { baseUrl } from "@/constants/constants";
 import { useAuth } from "@/lib/auth/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getStatusBarHeight } from "@/lib/utils";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const OPTIONS = [
   { label: "Kg", value: "kg" },
@@ -100,177 +101,191 @@ export default function AddNewPetPage() {
   const statusBarHeight = getStatusBarHeight();
 
   return (
-    <View style={[styles.layout, { gap: 25, paddingTop: statusBarHeight }]}>
-      <Header title="Add Pet" subtitle="Add new pet" iconBack />
+    <>
+      <Spinner
+        visible={mutation.isPending}
+        textContent={"Loading..."}
+        textStyle={{ ...stylesBase.buttonText, color: "#fff" }}
+        overlayColor="rgba(0, 0, 0, 0.4)"
+        animation="fade"
+      />
 
-      {/* Body */}
-      <ScrollView
-        style={styles.mainScrollViewContainer}
-        contentContainerStyle={styles.mainScrollViewContentContainer}
-      >
-        {/* Form */}
-        <View style={{ gap: 25, width: "100%" }}>
-          <View
-            style={{
-              width: "100%",
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              gap: 10,
-            }}
-          >
-            <Text style={[stylesBase.small, { color: colors.textPrimary }]}>
-              Name
-            </Text>
-            <TextInputX
-              value={name}
-              setValue={setName}
-              placeholder="Enter name..."
-            />
-          </View>
+      <View style={[styles.layout, { gap: 25, paddingTop: statusBarHeight }]}>
+        <Header title="Add Pet" subtitle="Add new pet" iconBack />
 
-          <View
-            style={{
-              alignItems: "flex-start",
-              justifyContent: "flex-start",
-              gap: 6,
-              width: "100%",
-            }}
-          >
-            <Text style={[stylesBase.small, { color: colors.textPrimary }]}>
-              Species
-            </Text>
+        {/* Body */}
+        <ScrollView
+          style={styles.mainScrollViewContainer}
+          contentContainerStyle={styles.mainScrollViewContentContainer}
+        >
+          {/* Form */}
+          <View style={{ gap: 25, width: "100%" }}>
             <View
               style={{
-                paddingHorizontal: 5,
-                flexDirection: "row",
+                width: "100%",
                 justifyContent: "flex-start",
-                gap: 50,
-                alignItems: "center",
+                alignItems: "flex-start",
+                gap: 10,
               }}
             >
+              <Text style={[stylesBase.small, { color: colors.textPrimary }]}>
+                Name
+              </Text>
+              <TextInputX
+                value={name}
+                setValue={setName}
+                placeholder="Enter name..."
+              />
+            </View>
+
+            <View
+              style={{
+                alignItems: "flex-start",
+                justifyContent: "flex-start",
+                gap: 6,
+                width: "100%",
+              }}
+            >
+              <Text style={[stylesBase.small, { color: colors.textPrimary }]}>
+                Species
+              </Text>
               <View
-                style={{ flexDirection: "row", alignItems: "center", gap: 1 }}
+                style={{
+                  paddingHorizontal: 5,
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
+                  gap: 50,
+                  alignItems: "center",
+                }}
               >
-                <RadioButton
-                  value="DOG"
-                  color={colors.primary}
-                  status={speciesChecked === "DOG" ? "checked" : "unchecked"}
-                  onPress={() => setSpeciesChecked("DOG")}
-                />
-                <Text style={[stylesBase.small, { color: colors.textPrimary }]}>
-                  Dog
-                </Text>
-              </View>
-              <View
-                style={{ flexDirection: "row", alignItems: "center", gap: 1 }}
-              >
-                <RadioButton
-                  value="CAT"
-                  color={colors.primary}
-                  status={speciesChecked === "CAT" ? "checked" : "unchecked"}
-                  onPress={() => setSpeciesChecked("CAT")}
-                />
-                <Text style={[stylesBase.small, { color: colors.textPrimary }]}>
-                  Cat
-                </Text>
+                <View
+                  style={{ flexDirection: "row", alignItems: "center", gap: 1 }}
+                >
+                  <RadioButton
+                    value="DOG"
+                    color={colors.primary}
+                    status={speciesChecked === "DOG" ? "checked" : "unchecked"}
+                    onPress={() => setSpeciesChecked("DOG")}
+                  />
+                  <Text
+                    style={[stylesBase.small, { color: colors.textPrimary }]}
+                  >
+                    Dog
+                  </Text>
+                </View>
+                <View
+                  style={{ flexDirection: "row", alignItems: "center", gap: 1 }}
+                >
+                  <RadioButton
+                    value="CAT"
+                    color={colors.primary}
+                    status={speciesChecked === "CAT" ? "checked" : "unchecked"}
+                    onPress={() => setSpeciesChecked("CAT")}
+                  />
+                  <Text
+                    style={[stylesBase.small, { color: colors.textPrimary }]}
+                  >
+                    Cat
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
 
-          <View
-            style={{
-              width: "100%",
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              gap: 10,
-            }}
-          >
-            <Text style={[stylesBase.small, { color: colors.textPrimary }]}>
-              Breed
-            </Text>
-            <TextInputX
-              value={breed}
-              setValue={setBreed}
-              placeholder="Enter breed..."
-            />
-          </View>
-
-          <View
-            style={{
-              width: "100%",
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              alignItems: "center",
-              gap: 8,
-            }}
-          >
-            <Text style={[stylesBase.small, { color: colors.textPrimary }]}>
-              Date of birth:
-            </Text>
-            <Pressable
-              onPress={() => {
-                setShowCalendar(true);
+            <View
+              style={{
+                width: "100%",
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+                gap: 10,
               }}
             >
-              <Image source={require("@/assets/images/calendar.png")} />
-            </Pressable>
-            {showCalendar && (
-              <DateTimePicker
-                value={date}
-                mode="date"
-                display="default"
-                onChange={onChange}
-                accentColor={colors.primary}
-                textColor={colors.primary}
+              <Text style={[stylesBase.small, { color: colors.textPrimary }]}>
+                Breed
+              </Text>
+              <TextInputX
+                value={breed}
+                setValue={setBreed}
+                placeholder="Enter breed..."
               />
-            )}
-          </View>
-          <View
-            style={{
-              width: "100%",
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              gap: 10,
-            }}
-          >
-            <Text style={[stylesBase.small, { color: colors.textPrimary }]}>
-              Current weight (Kg):
-            </Text>
-            <TextInputX
-              value={currentWeight}
-              setValue={setCurrentWeight}
-              placeholder="Enter weight..."
+            </View>
+
+            <View
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              <Text style={[stylesBase.small, { color: colors.textPrimary }]}>
+                Date of birth:
+              </Text>
+              <Pressable
+                onPress={() => {
+                  setShowCalendar(true);
+                }}
+              >
+                <Image source={require("@/assets/images/calendar.png")} />
+              </Pressable>
+              {showCalendar && (
+                <DateTimePicker
+                  value={date}
+                  mode="date"
+                  display="default"
+                  onChange={onChange}
+                  accentColor={colors.primary}
+                  textColor={colors.primary}
+                />
+              )}
+            </View>
+            <View
+              style={{
+                width: "100%",
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+                gap: 10,
+              }}
+            >
+              <Text style={[stylesBase.small, { color: colors.textPrimary }]}>
+                Current weight (Kg):
+              </Text>
+              <TextInputX
+                value={currentWeight}
+                setValue={setCurrentWeight}
+                placeholder="Enter weight..."
+              />
+            </View>
+            <ActivityLevelSlider
+              value={activityLevelValue}
+              setValue={setActivityLevelValue}
             />
           </View>
-          <ActivityLevelSlider
-            value={activityLevelValue}
-            setValue={setActivityLevelValue}
+        </ScrollView>
+
+        {/* Action buttons */}
+        <View
+          style={{
+            flexDirection: "row",
+            gap: 16,
+            width: "100%",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            padding: 10,
+          }}
+        >
+          <RoundedButton
+            label="Cancelar"
+            variant="outline"
+            onPress={() => router.back()}
+          />
+          <RoundedButton
+            label="Aceptar"
+            variant="default"
+            onPress={handleSubmit}
           />
         </View>
-      </ScrollView>
-
-      {/* Action buttons */}
-      <View
-        style={{
-          flexDirection: "row",
-          gap: 16,
-          width: "100%",
-          justifyContent: "flex-end",
-          alignItems: "center",
-          padding: 10,
-        }}
-      >
-        <RoundedButton
-          label="Cancelar"
-          variant="outline"
-          onPress={() => router.back()}
-        />
-        <RoundedButton
-          label="Aceptar"
-          variant="default"
-          onPress={handleSubmit}
-        />
       </View>
-    </View>
+    </>
   );
 }
