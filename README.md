@@ -50,7 +50,7 @@ pnpm install
 pnpm start
 ```
 **Note:** You must configure the backend server URL in the frontend so the mobile app can successfully connect to it.
-Open frontend-mobile/constants/constants.ts:
+Open "frontend-mobile/constants/constants.ts":
 ```javascript
 export const baseUrl = "http://192.168.166.86:3000";
 ```
@@ -63,6 +63,9 @@ pnpm start
 ## 🤝 Contributing
 Contributions are welcome!  
 Please open an issue or submit a pull request for suggestions and improvements.
+
+## Design
+Open the folder "design-Lunacy". It contains the design file. Open with Lunacy
 
 ## 📸 Screenshots
 ![Screenshot 1](screenshots/01.png)
