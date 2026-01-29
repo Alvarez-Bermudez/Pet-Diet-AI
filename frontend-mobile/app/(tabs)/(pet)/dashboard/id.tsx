@@ -97,7 +97,12 @@ export default function Dashboard() {
           .replaceAll("```", "")
           .replaceAll("**", "")
           .replaceAll("* ", "- ")
-          .replaceAll("*", "");
+          .replaceAll("*", "")
+          .replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
+          .replace(/[“”]/g, '"')
+          .replace(/[‘’]/g, "'")
+          .replaceAll("|", "");
+
         const menu = JSON.parse(cleanMenu);
 
         // console.log(`string menu: ${JSON.stringify(menu, null, 2)}`);

@@ -11,7 +11,9 @@ Using the Daily Nutritional Plan and Pet Info below, generate a homemade menu fo
 - Avoid repeating meals across the day.
 - Keep it simple and practical for a pet owner to prepare.
 
+Respond only with valid JSON. Do not include any extra text, markdown, or explanation.
 Return the result strictly in the following JSON format:
+
 json
 {
   "title": "Homemade Diet (1 day)",
