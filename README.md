@@ -49,6 +49,16 @@ pnpm install
 # 2.Start Expo server
 pnpm start
 ```
+**Note:** You must configure the backend server URL in the frontend so the mobile app can successfully connect to it.
+Open frontend-mobile/constants/constants.ts:
+```javascript
+export const baseUrl = "http://192.168.166.86:3000";
+```
+And change the url according to your backend ip.
+Later restart server: 
+```bash
+pnpm start
+``` 
 
 ## 🤝 Contributing
 Contributions are welcome!  
