@@ -2,14 +2,14 @@
 
 PetDiet AI is a mobile application focused on generating personalized nutritional plans for underweight pets, designed to improve their body condition safely and progressively.
 
-## ✨ Key Features
+## Key Features
 - **Complete pet management**: register pets, track history, and monitor progress.
 - **AI-powered daily nutrition plans**: automatic generation tailored to each pet’s needs.
 - **Menu history**: review previously generated plans.
 - **Weight tracking**: monitor safe and gradual improvements.
 - **REST API architecture**: seamless communication between backend and mobile app.
 
-## 🛠️ Tech Stack
+## Tech Stack
 ### Backend
 - [NestJS](https://nestjs.com/)  
 - [Prisma](https://www.prisma.io/)  
@@ -17,8 +17,11 @@ PetDiet AI is a mobile application focused on generating personalized nutritiona
 ### Mobile App
 - [React Native](https://reactnative.dev/)
 
+### AI
+- [Gemini](https://gemini.google.com/)
 
-## 🚀 Installation & Usage
+
+## Installation & Usage
 ```bash 
 # Clone the repository
 git clone https://github.com/Alvarez-Bermudez/Pet-Diet-AI.git
@@ -60,14 +63,14 @@ Later restart server:
 pnpm start
 ``` 
 
-## 🤝 Contributing
+## Contributing
 Contributions are welcome!  
 Please open an issue or submit a pull request for suggestions and improvements.
 
 ## Design
 Open the folder "design-Lunacy". It contains the design file. Open with Lunacy
 
-## 📸 Screenshots
+## Screenshots
 ![Screenshot 1](screenshots/01.png)
 ![Screenshot 2](screenshots/02.png)
 ![Screenshot 3](screenshots/03.png)
